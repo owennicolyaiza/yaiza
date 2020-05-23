@@ -3,5 +3,5 @@ build/
 coverage/
 .prettierrc
 next.config.js
-postcss.config.js
+.next
 config/
