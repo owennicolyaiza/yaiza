@@ -108,16 +108,16 @@ cp .env.example .env
 
 Then set each variable on `.env`:
 
-- `NEXT_EXAMPLE_CMS_PRISMIC_API_TOKEN` should be the **Permanent access token** you just created
-- `NEXT_EXAMPLE_CMS_PRISMIC_REPOSITORY_NAME` is the name of your repository (the one in the URL)
-- `NEXT_EXAMPLE_CMS_PRISMIC_REPOSITORY_LOCALE` is the locale of your repository. Defaults to `en-us`
+- `CMS_PRISMIC_API_TOKEN` should be the **Permanent access token** you just created
+- `CMS_PRISMIC_REPOSITORY_NAME` is the name of your repository (the one in the URL)
+- `CMS_PRISMIC_REPOSITORY_LOCALE` is the locale of your repository. Defaults to `en-us`
 
 Your `.env` file should look like this:
 
 ```bash
-NEXT_EXAMPLE_CMS_PRISMIC_API_TOKEN=...
-NEXT_EXAMPLE_CMS_PRISMIC_REPOSITORY_NAME=...
-NEXT_EXAMPLE_CMS_PRISMIC_REPOSITORY_LOCALE=...
+CMS_PRISMIC_API_TOKEN=...
+CMS_PRISMIC_REPOSITORY_NAME=...
+CMS_PRISMIC_REPOSITORY_LOCALE=...
 ```
 
 Make sure the locale matches your settings in the Prismic dashboard.
@@ -158,11 +158,11 @@ You can deploy this app to the cloud with [Vercel](https://vercel.com/import?fil
 
 To deploy on Vercel, you need to set the environment variables with **Now Secrets** using [Vercel CLI](https://vercel.com/download) ([Documentation](https://vercel.com/docs/now-cli#commands/secrets)).
 
-Install [Vercel CLI](https://vercel.com/download), log in to your account from the CLI, and run the following commands to add the environment variables. Replace `<NEXT_EXAMPLE_CMS_PRISMIC_API_TOKEN>` and `<NEXT_EXAMPLE_CMS_PRISMIC_REPOSITORY_NAME>` with the corresponding strings in `.env`:
+Install [Vercel CLI](https://vercel.com/download), log in to your account from the CLI, and run the following commands to add the environment variables. Replace `<CMS_PRISMIC_API_TOKEN>` and `<CMS_PRISMIC_REPOSITORY_NAME>` with the corresponding strings in `.env`:
 
 ```bash
-now secrets add next_example_cms_prismic_api_token <NEXT_EXAMPLE_CMS_PRISMIC_API_TOKEN>
-now secrets add next_example_cms_prismic_repository_name <NEXT_EXAMPLE_CMS_PRISMIC_REPOSITORY_NAME>
+now secrets add cms_prismic_api_token <CMS_PRISMIC_API_TOKEN>
+now secrets add cms_prismic_repository_name <CMS_PRISMIC_REPOSITORY_NAME>
 ```
 
 Then push the project to GitHub/GitLab/Bitbucket and [import to Vercel](https://vercel.com/import?filter=next.js&utm_source=github&utm_medium=readme&utm_campaign=next-example) to deploy.
