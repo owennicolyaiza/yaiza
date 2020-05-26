@@ -8,7 +8,10 @@ import Layout from '../components/layout';
 import { getAllPostsForHome } from '../lib/api';
 import { CMS_NAME } from '../lib/constants';
 
-export default function Index({ preview, allPosts }) {
+export default function Index({ preview, data }) {
+  const {
+    homepage: { strapline },
+  } = data;
   return (
     <>
       <Layout preview={preview}>
@@ -16,7 +19,7 @@ export default function Index({ preview, allPosts }) {
           <title>Next.js Blog Example with {CMS_NAME}</title>
         </Head>
         <Container>
-          <Intro />
+          <Intro text={strapline[0].text} />
         </Container>
       </Layout>
     </>
@@ -24,12 +27,8 @@ export default function Index({ preview, allPosts }) {
 }
 
 export async function getStaticProps({ preview = false, previewData }) {
-  const allPosts = await getAllPostsForHome(previewData);
-  console.log('====> allPosts:', allPosts);
+  const data = await getAllPostsForHome(previewData);
   return {
-    props: {},
-  };
-  return {
-    props: { preview, allPosts },
+    props: { preview, data },
   };
 }
