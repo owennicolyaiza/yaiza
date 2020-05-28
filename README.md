@@ -41,7 +41,7 @@ cd cms-prismic
 
 First, [create an account on Prismic](https://prismic.io/).
 
-After creating an account, create a **repository** from the [dashboard](https://prismic.io/dashboard/) and assign to it any name of your liking.
+After creating an account, crjdeate a **repository** from the [dashboard](https://prismic.io/dashboard/) and assign to it any name of your liking.
 
 ### Step 2. Create an `author` type
 
