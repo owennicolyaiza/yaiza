@@ -73,9 +73,10 @@ export async function getStaticPaths() {
   const allProjects = await getAllProjectsWithSlug();
   return {
     paths:
-      allProjects
-        ?.filter(({ node }) => node._meta.uid !== 'about-me')
-        ?.map(({ node }) => `/projects/${node._meta.uid}`) || [],
+      // allProjects
+      //   ?.filter(({ node }) => node._meta.uid !== 'about-me')
+      //   ?.map(({ node }) => `/projects/${node._meta.uid}`) || [],
+      [],
     fallback: true,
   };
 }
