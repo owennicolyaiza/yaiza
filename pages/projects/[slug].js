@@ -57,8 +57,9 @@ export default function Post({ casestudy, morePosts, preview }) {
   );
 }
 
-export async function getStaticProps({ params, preview = false, previewData }) {
-  const data = await getProject(params.slug, previewData);
+export async function getStaticProps({ params, preview = false }) {
+  const data = await getProject(params.slug);
+  console.log('====> data:', data);
 
   return {
     props: {
