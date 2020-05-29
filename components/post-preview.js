@@ -10,19 +10,19 @@ export default function PostPreview({
   date,
   excerpt,
   author,
-  slug,
+  uid,
 }) {
   return (
     <div>
       <div className="mb-5">
         <CoverImage
           title={RichText.asText(title)}
-          slug={slug}
+          uid={uid}
           url={coverImage.url}
         />
       </div>
       <h3 className="text-3xl mb-3 leading-snug">
-        <Link as={`/projects/${slug}`} href="/projects/[slug]">
+        <Link as={`/projects/${uid}`} href="/projects/[uid]">
           <a className="hover:underline">
             <RichText render={title} />
           </a>
