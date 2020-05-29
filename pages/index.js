@@ -1,5 +1,6 @@
 import React from 'react';
 import Head from 'next/head';
+import Link from 'next/link';
 import Container from '../components/container';
 import MoreStories from '../components/more-stories';
 import HeroPost from '../components/hero-post';
@@ -18,8 +19,10 @@ export default function Index({ preview, results }) {
         <Container>
           <Intro text="Hello" />
           {results.map(result => (
-            <p>
-              {result.uid} {result.data['homepage-slide-order']}
+            <p key={result.uid}>
+              <Link href="/projects/[uid]" as={`/projects/${result.uid}`}>
+                <a>{result.uid}</a>
+              </Link>
             </p>
           ))}
         </Container>
