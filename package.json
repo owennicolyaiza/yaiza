@@ -19,7 +19,9 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "dotenv": "8.2.0",
-    "concurrently": "^5.0.2"
+    "concurrently": "^5.0.2",
+    "express": "4.17.1",
+    "woke-dyno": "0.0.4"
   },
   "devDependencies": {
     "@fullhuman/postcss-purgecss": "^2.1.0",
