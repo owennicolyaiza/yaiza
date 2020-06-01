@@ -1,0 +1,91 @@
+@import "./nav-icon";
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  text-transform: uppercase;
+  color: $lightColor;
+  font-size: 1.1rem;
+  z-index: 51;
+  height: $headerHeight;
+  .container {
+    position: relative;
+    background-color: rgba(0, 0, 0, 0);
+    transition: background-color $transitionTime * 3 $transitionEase;
+    height: 100%;
+  }
+  .menu-button-container {
+    width: 75px;
+    position: absolute;
+    cursor: pointer;
+    z-index: 51;
+    text-align: right;
+    right: 30px;
+    top: 15px;
+    &:hover {
+      color: #fff;
+    }
+    &.active {
+      color: #000;
+      &:hover {
+        color: #000;
+      }
+    }
+  }
+  .logo-link {
+    position: absolute;
+    z-index: 52;
+    left: 30px;
+    top: 15px;
+    display: block;
+    width: 25px;
+  }
+  .logo {
+    width: 100%;
+    path {
+      fill: $lightColor;
+      -webkit-transition: fill $transitionTime $transitionEase;
+      transition: fill $transitionTime $transitionEase;
+    }
+    &:hover {
+      path {
+        fill: #fff;
+      }
+    }
+  }
+  .strapline {
+    margin: 26px 0;
+    position: fixed;
+    left: 0;
+    right: 0;
+    width: 260px;
+    left: 50%;
+    margin-left: -130px;
+    user-select: none;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity $transitionTime $transitionEase, visibility $transitionTime $transitionEase;
+  }
+  &.active {
+    .container {
+      background-color: rgba(0, 0, 0, .5);
+    }
+    .logo {
+      path {
+        fill: #fff;
+      }
+    }
+    .strapline {
+      opacity: 0;
+      visibility: hidden;
+    }
+    .menu-button-container {
+      color: #fff;
+      &:hover {
+        color: $lightColor;
+      }
+    }
+  }
+}

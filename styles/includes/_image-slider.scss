@@ -1,0 +1,28 @@
+.image-slider {
+  
+  width: 100%;
+  .image-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    opacity: 0;
+    transition: opacity 1s ease;
+  }
+  .image-container.active {
+    z-index: 3;
+    opacity: 1;
+    position: relative;
+  }
+  .image-container.next {
+    z-index: 2;
+  }
+}
+
+@media screen and (min-width:768px) {
+ 
+}

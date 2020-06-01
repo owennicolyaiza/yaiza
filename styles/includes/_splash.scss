@@ -1,0 +1,57 @@
+.splash-container {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  background: url('/assets/splash-bg.jpg') no-repeat center top;
+  background-size: cover;
+  z-index: 55;
+  opacity: 0;
+  transform: scale(0.85);
+  visibility: hidden;
+  transition: opacity .6s ease-out, visibility .6s ease-out, transform .2s ease-out;
+  &.active {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+  }
+  &__logo {
+    position: absolute;
+    top: 30vh;
+    left: 5vw;
+    width: 70vw;
+    svg {
+      @extend .img-responsive;
+      path {
+        fill: rgba(255, 255, 255, 0.3);
+      }
+    }
+    .yaiza-logo {
+      width: 100%;
+      opacity: 0.3;
+    }
+  }
+  &__strapline {
+    margin: 20px 0 0 20px;
+    font-size: 1.8rem;
+    color: #929191;
+    text-transform: uppercase;
+  }
+}
+
+@media screen and (min-width:768px) {
+  .splash-container {
+    &__strapline {
+      margin-top: -30px;
+    }
+  }
+}
+@media screen and (min-width:992px) {
+  .splash-container {
+    &__strapline {
+      margin-top: -50px;
+    }
+  }
+}

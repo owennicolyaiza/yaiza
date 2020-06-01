@@ -1,0 +1,105 @@
+#navMenuToggleButton {
+  position: relative;
+  right: 0;
+  top: 7px;
+  z-index: 11;
+}
+
+.toggle {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  cursor: pointer
+}
+
+.toggle .cross {
+  -webkit-transition-duration: 0s;
+  transition-duration: 0s;
+  display: block;
+  width: 100%;
+  height: 100%;
+  &::after{
+    content:none;
+  }
+}
+
+.toggle .cross span:before {
+  transition-property: margin, -webkit-transform, top, left, width;
+  -webkit-transition-property: margin, top, left, width, -webkit-transform;
+  transition-property: margin, top, left, width, -webkit-transform;
+  transition-property: margin, transform, top, left, width;
+  transition-property: margin, transform, top, left, width, -webkit-transform;
+  -webkit-transition-duration: .1s;
+  transition-duration: .1s
+}
+
+.toggle .cross span:after {
+  transition-property: margin, -webkit-transform, top, left, width;
+  -webkit-transition-property: margin, top, left, width, -webkit-transform;
+  transition-property: margin, top, left, width, -webkit-transform;
+  transition-property: margin, transform, top, left, width;
+  transition-property: margin, transform, top, left, width, -webkit-transform;
+  -webkit-transition-duration: .1s;
+  transition-duration: .1s
+}
+
+.toggle .cross.open span {
+  background-color: transparent;
+}
+
+.toggle .cross.open span:before {
+  margin-top: 0;
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+  background-color: $lightColor;
+}
+
+.toggle .cross.open span:after {
+  margin-top: 0;
+  -webkit-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+  background-color: $lightColor;
+}
+
+.toggle .cross.open.arrow span:before {
+  width: 15px;
+  left: -2px;
+  top: 2px;
+}
+
+.toggle .cross.open.arrow span:after {
+  width: 15px;
+  left: -2px;
+  top: -2px;
+}
+
+.toggle span {
+  margin: 0 auto;
+  position: relative;
+  z-index: 999;
+  top: 12px;
+  width: 30px;
+  height: 0.9px;
+  border-radius: 10px;
+  background-color: $lightColor;
+  display: block
+}
+
+.toggle span:before,
+.toggle span:after {
+  position: absolute;
+  content: '';
+  width: 30px;
+  height: 0.9px;
+  border-radius: 10px;
+  background-color: $lightColor;
+  display: block
+}
+
+.toggle span:before {
+  margin-top: -7px
+}
+
+.toggle span:after {
+  margin-top: 7px
+}

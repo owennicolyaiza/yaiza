@@ -1,0 +1,167 @@
+  .nav-container {
+    position: fixed;
+    text-transform: uppercase;
+    font-size: 1.3rem;
+    @extend .domaine;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #000;
+    color: #c0c0c0;
+    opacity: 0;
+    visibility: hidden;
+    z-index: 50;
+    -webkit-transition: opacity $transitionTime $transitionEase, visibility $transitionTime $transitionEase;
+    transition: opacity $transitionTime $transitionEase, visibility $transitionTime $transitionEase;
+    &.active {
+      opacity: 1;
+      visibility: visible;
+      overflow: auto;
+      .nav li,
+      .nav-info>div,
+      .nav-logo {
+        opacity: 1;
+        transform: translateY(0);
+        transition-delay: .5s;
+      }
+    }
+    .container {
+      position: relative;
+    }
+    .nav-info {
+      color: #fff;
+      text-align: left;
+      padding: 10px 30px;
+      margin-top: $headerHeight;
+      div {
+        transform: translateY(5vh);
+        opacity: 0;
+        transition: opacity .2s ease-out, transform .2s ease-out;
+      }
+      h3 {
+        @extend .domaine;
+        margin-bottom: 10px;
+      }
+      small {
+        color: $lightColor;
+        margin-bottom: 30px;
+        display: block;
+        @extend .lato;
+      }
+      a {
+        @extend .lato;
+        text-transform: none;
+        color: #fff;
+      }
+    }
+    .nav {
+      @extend .lato;
+      list-style: none;
+      width: 100%;
+      top: auto;
+      left: auto;
+      margin: 0;
+      padding: 20px 0;
+      max-height: 100%;
+      text-align: left;
+      overflow: hidden;
+      z-index: 5;
+      background: #000;
+      -webkit-overflow-scrolling: touch;
+      li {
+        display: block;
+        margin-bottom: 15px;
+        font-size: 1.2rem;
+        cursor: pointer;
+        overflow: hidden;
+        padding-left: 30px;
+        transform: translateY(5vh);
+        opacity: 0;
+        transition: opacity .2s ease-out, transform .2s ease-out;
+        .nav-link {
+          &.active {
+            position: relative;
+            &::before {
+              position: absolute;
+              content: '/';
+              left: -10px;
+            }
+          }
+        }
+      }
+    }
+    .nav-logo {
+      display: none;
+      position: absolute;
+      bottom: -100px;
+      width: 100%;
+      z-index: 1;
+      @extend .img-responsive;
+      opacity: 0;
+      transform: translateY(25vh);
+      transition: opacity .75s ease-out, transform .75s ease-out;
+      transition-delay: 0s;
+      path {
+        fill: rgba(30, 30, 30, 0.59);
+      }
+    }
+  }
+  
+  a.nav-link {
+    color: #c0c0c0;
+    cursor: pointer;
+    font-weight: normal;
+    transition: color $transitionTime $transitionEase;
+    &::after {
+      content: none;
+    }
+    &:hover,
+    &.active {
+      text-decoration: none;
+      color: #fff;
+    }
+  }
+  /* Animation delays */
+  
+  @for $i from 1 to 20 {
+    .nav-container.active .nav li:nth-child(#{$i}),
+    .nav-container.active .nav-info>div:nth-child(#{$i}) {
+      transition-delay: $i * .05s;
+    }
+  }
+  
+  @media screen and (min-width:768px) {
+    .nav-container {
+      .nav {
+        width: 260px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        padding: 0;
+      }
+      &.active {
+        overflow: hidden;
+      }
+      .nav-info {
+        position: absolute;
+        top: $headerHeight;
+        left: 30px;
+        padding: 0;
+        margin-top: auto;
+      }
+      .nav-logo {
+        display: block;
+      }
+    }
+  }
+  
+  @media screen and (min-width:1000px) {
+    .nav-container {
+      .nav-logo {
+        bottom: -100px;
+      }
+    }
+  }

@@ -1,0 +1,59 @@
+$lightColor: #f0f0f0;
+$darkColor: #171717;
+$transitionTime: .15s;
+$transitionEase: ease-in;
+$headerHeight: 70px;
+.domaine {
+  font-family: 'DomaineDisplay', serif;
+}
+
+.lato {
+  font-family: 'Lato', sans-serif;
+}
+
+.light-font{
+  font-weight: 300;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    visibility: hidden;
+  }
+  to {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    visibility: hidden;
+    transform: translate3d(0, 50%, 0);
+  }
+  to {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+  }
+}
+
+.animated {
+  animation-duration: 1s;
+  animation-fill-mode: both;
+  animation-timing-function: ease-out;
+  backface-visibility: hidden;
+}
+
+.fadeInUp {
+  animation-name: fadeInUp;
+}
+
+.fadeIn {
+  animation-name: fadeIn;
+}
+
+.delayed-animation {
+  animation-delay: 2s;
+}

@@ -1,0 +1,22 @@
+/* Bootstrap*/
+
+@import "bootstrap-custom";
+@import "includes/variables";
+@font-face {
+  font-family: 'DomaineDisplay';
+  src: url('/fonts/DomaineDisplayWeb-Semibold.woff') format('woff'), url('/fonts/DomaineDisplayWeb-Semibold.woff2') format('woff2'),
+}
+
+@import url('https://fonts.googleapis.com/css?family=Lato:300,700');
+
+@import "includes/general";
+@import "includes/splash";
+@import "includes/header";
+@import "includes/nav";
+@import "includes/flickity";
+@import "includes/home";
+@import "includes/carousel";
+@import "includes/project";
+@import "includes/video";
+@import "includes/image-slider";
+@import "includes/404";

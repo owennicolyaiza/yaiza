@@ -1,4 +1,5 @@
-require('dotenv').config()
+const webpack = require('webpack');
+require('dotenv').config();
 
 module.exports = {
   env: {
@@ -9,4 +10,9 @@ module.exports = {
     CMS_PRISMIC_REPOSITORY_LOCALE:
       process.env.CMS_PRISMIC_REPOSITORY_LOCALE || 'en-us',
   },
+  // webpack: (config) => {
+  //   config.plugins.push(new webpack.ProvidePlugin({ Flickity: 'flickity' }))
+  //   return config;
+  // }
+
 }
