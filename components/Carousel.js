@@ -1,19 +1,19 @@
 import React, { useEffect, useRef } from 'react';
 import Link from 'next/link';
 import classNames from 'classnames';
-import dynamic from 'next/dynamic';
 import Flickity from 'react-flickity-component';
 import SVGRightArrow from './SVG/SVGRightArrow';
 import SVGLeftArrow from './SVG/SVGLeftArrow';
 
 export default function Carousel({
   homepageContent,
-  setHomepageSlide = () => {},
+  homepageSlide,
+  setHomepageSlide,
 }) {
   const flkRef = useRef(undefined);
   const flickityOptions = {
-    // initialIndex: props.homepageSlide,
-    // cellSelector: '.carousel-cell',
+    initialIndex: homepageSlide,
+    cellSelector: '.carousel-cell',
     // accessibility: true,
     pageDots: false,
     prevNextButtons: false,
@@ -84,12 +84,14 @@ export default function Carousel({
     <div id="carousel">
       <Flickity className="carousel" options={flickityOptions} ref={flkRef}>
         {homepageContent.map((content, key) => {
-          console.log('====> content:', content);
-          const effect = content['homepage-image-effect'];
-          const pageBGColor = content['homepage-background-colour'] || '#000';
+          const {
+            data
+          } = content;
+          const effect = data['homepage-image-effect'];
+          const pageBGColor = data['homepage-background-colour'] || '#000';
           bgColors.push(pageBGColor);
-          const mainImage = content['homepage-slider-image']?.url;
-          const secondaryImage = content['homepage-slider-second-image']?.url;
+          const mainImage = data['homepage-slider-image']?.url;
+          const secondaryImage = data['homepage-slider-second-image']?.url;
           return (
             <Link
               as={`/projects/${content.uid}`}
@@ -97,11 +99,10 @@ export default function Carousel({
               onClick={() => {
                 setHomepageSlide(key);
               }}
-              className="carousel-cell"
               key={content.uid}
               data-effect={effect}
             >
-              <a>
+              <a className="carousel-cell">
                 <div className="carousel-cell__container">
                   <div
                     className="carousel-cell__content"
@@ -116,8 +117,8 @@ export default function Carousel({
                   </div>
 
                   <div className="carousel-cell__text">
-                    <h2 data-subtext={content['.homepage-slide-sub-heading']}>
-                      {content['homepage-slide-heading']}
+                    <h2 data-subtext={data['.homepage-slide-sub-heading']}>
+                      {data['homepage-slide-heading']}
                     </h2>
                   </div>
                 </div>
