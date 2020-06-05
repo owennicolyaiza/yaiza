@@ -187,8 +187,8 @@ export default function Project({ project, morePosts, preview }) {
   const pageContentOutput = contentArea.length
     ? contentArea.map((slice, index) => {
       const sliceLabel = slice.slice_label || '';
-      console.log('====> slice.slice_type:', slice.slice_type)
-      console.log('====> slice.value:', slice.value)
+      // console.log('====> slice.slice_type:', slice.slice_type)
+      // console.log('====> slice.value:', slice.value)
       switch (slice.slice_type) {
         case 'content':
           const contentClasses = `content-container ${sliceLabel}`;
