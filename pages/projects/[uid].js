@@ -119,14 +119,14 @@ class ProjectContainer extends React.Component {
 
 export default function Project({ project, morePosts, preview }) {
   const router = useRouter();
-  if (!router.isFallback && !project?.uid) {
+
+  if (!project) return null;
+
+  if ((!router.isFallback && !project?.uid) || Object.keys(project).length === 0) {
     return <ErrorPage statusCode={404} />;
   }
-  const { data: { contentArea = [] } } = project
 
-  // console.log('====> project:', project)
-  // console.log('====> contentArea:', contentArea)
-
+  const { data: { contentArea = [] } = {} } = project
   let slicesArray = [];
   // if (!project?.getSliceZone('casestudy.contentArea')) return null
   // const description = project?.'casestudy.meta-description'] && project?.'casestudy.meta-description'].asText()
@@ -187,8 +187,7 @@ export default function Project({ project, morePosts, preview }) {
   const pageContentOutput = contentArea.length
     ? contentArea.map((slice, index) => {
       const sliceLabel = slice.slice_label || '';
-      // console.log('====> slice.slice_type:', slice.slice_type)
-      // console.log('====> slice.value:', slice.value)
+      const sliceValue = slice.value[0] || {}
       switch (slice.slice_type) {
         case 'content':
           const contentClasses = `content-container ${sliceLabel}`;
@@ -197,11 +196,11 @@ export default function Project({ project, morePosts, preview }) {
           const contentDarkClasses = `content-container content-container--dark ${sliceLabel}`;
           return (<Reveal effect="animated fadeInUp" className={contentDarkClasses} key={index}><RichText render={slice.value} /></Reveal>);
         case 'Logo':
-          const logoBGColor = slice.value[0]["background-colour"];
-          const logoCaption = slice.value[0]["caption"];
+          const logoBGColor = sliceValue["background-colour"];
+          const logoCaption = sliceValue["caption"];
           const hasCaption = logoCaption ? 'has-caption' : '';
           const logoClasses = `logo-container ${sliceLabel} ${hasCaption}`;
-          const logoIcon = slice.value[0]["icon"];
+          const logoIcon = sliceValue["icon"];
           return (
             <Reveal effect="animated fadeInUp" className={logoClasses} key={index} style={{ backgroundColor: logoBGColor }}>
               <div>
@@ -218,11 +217,11 @@ export default function Project({ project, morePosts, preview }) {
           );
         case 'Image Rollover':
           const imageRollClasses = `image-roll-container ${sliceLabel}`;
-          const imageRollColor = slice.value[0]["background-colour"];
-          const imageRollIcon = slice.value[0]["icon"].url;
-          const imageRollBgImage = slice.value[0]["rollover-background-image"].url;
-          const imageRolloverIcon = slice.value[0]["rollover-icon"].url;
-          const imageRolloverText = slice.value[0]["rollover-text"];
+          const imageRollColor = sliceValue["background-colour"];
+          const imageRollIcon = sliceValue["icon"].url;
+          const imageRollBgImage = sliceValue["rollover-background-image"].url;
+          const imageRolloverIcon = sliceValue["rollover-icon"].url;
+          const imageRolloverText = sliceValue["rollover-text"];
           return (
             <Reveal effect="animated fadeInUp" className={imageRollClasses} key={index}>
               <div className="image-roll-default" style={{ backgroundColor: imageRollColor }}>
@@ -249,59 +248,66 @@ export default function Project({ project, morePosts, preview }) {
             </Reveal>
           );
         case 'One Side Tall':
-          const oneSideTallClasses = 'one-side-tall-container';
-          const oneSideTallTImage = slice.value[0]["tallImage"].url;
-          const oneSideTallTopSImage = slice.value[0]["otherSideTopImage"].url;
-          const oneSideTallSImage = slice.value[0]["otherSideBottomImage"].main.url;
-          const oneSideTallText = slice.value[0]["otherSideTopText"];
-          return (
-            <Reveal effect="animated fadeInUp" className={oneSideTallClasses} key={index}>
-              {sliceLabel === 'left-side-tall' &&
-                <div className="one-side-tall">
-                  <div className="tall half-width">
-                    <img src={oneSideTallTImage} className="img-responsive" />
-                  </div>
-                  <div className="others half-width">
-                    {!oneSideTallTopSImage && oneSideTallText &&
-                      <div className="content" dangerouslySetInnerHTML={{ __html: oneSideTallText }} />
-                    }
-                    {oneSideTallTopSImage &&
+          const oneSideTallTImage = sliceValue["tallImage"].url;
+          const oneSideTallTopSImage = sliceValue["otherSideTopImage"].url;
+          const oneSideTallSImage = sliceValue["otherSideBottomImage"].url;
+          const oneSideTallText = sliceValue["otherSideTopText"];
+
+          switch (sliceLabel) {
+            default:
+            case 'left-side-tall': {
+              return (
+                <Reveal effect="animated fadeInUp" className="one-side-tall-container" key={index}>
+                  <div className="one-side-tall">
+                    <div className="tall half-width">
+                      <img src={oneSideTallTImage} className="img-responsive" />
+                    </div>
+                    <div className="others half-width">
+                      {!oneSideTallTopSImage && oneSideTallText &&
+                        <div className="content" dangerouslySetInnerHTML={{ __html: oneSideTallText }} />
+                      }
+                      {oneSideTallTopSImage &&
+                        <div>
+                          <img src={oneSideTallTopSImage} className="img-responsive" />
+                        </div>
+                      }
                       <div>
-                        <img src={oneSideTallTopSImage} className="img-responsive" />
+                        <img src={oneSideTallSImage} className="img-responsive" />
                       </div>
-                    }
-                    <div>
-                      <img src={oneSideTallSImage} className="img-responsive" />
                     </div>
                   </div>
-                </div>
-              }
-              {sliceLabel === 'right-side-tall' &&
-                <div className="one-side-tall">
-                  <div className="others half-width">
-                    {!oneSideTallTopSImage && oneSideTallText &&
-                      <div className="content" dangerouslySetInnerHTML={{ __html: oneSideTallText }} />
-                    }
-                    {oneSideTallTopSImage &&
+                </Reveal>
+              )
+            }
+            case 'right-side-tall': {
+              return (
+                <Reveal effect="animated fadeInUp" className="one-side-tall-container" key={index}>
+                  <div className="one-side-tall">
+                    <div className="others half-width">
+                      {!oneSideTallTopSImage && oneSideTallText &&
+                        <div className="content" dangerouslySetInnerHTML={{ __html: oneSideTallText }} />
+                      }
+                      {oneSideTallTopSImage &&
+                        <div>
+                          <img src={oneSideTallTopSImage} className="img-responsive" />
+                        </div>
+                      }
                       <div>
-                        <img src={oneSideTallTopSImage} className="img-responsive" />
+                        <img src={oneSideTallSImage} className="img-responsive" />
                       </div>
-                    }
-                    <div>
-                      <img src={oneSideTallSImage} className="img-responsive" />
+                    </div>
+                    <div className="tall half-width">
+                      <img src={oneSideTallTImage} className="img-responsive" />
                     </div>
                   </div>
-                  <div className="tall half-width">
-                    <img src={oneSideTallTImage} className="img-responsive" />
-                  </div>
-                </div>
-              }
-            </Reveal>
-          );
+                </Reveal>
+              )
+            }
+          }
         case 'Quote':
           const quoteClasses = `quote-container ${sliceLabel}`;
-          const quoteText = slice.value[0]["quote-text"];
-          const quoteSource = slice.value[0]["quote-source"];
+          const quoteText = sliceValue["quote-text"];
+          const quoteSource = sliceValue["quote-source"];
           return (
             <Reveal effect="animated fadeInUp" className={quoteClasses} key={index} style={{ backgroundColor: '#000', color: '#fff' }}>
               <div>
@@ -327,13 +333,13 @@ export default function Project({ project, morePosts, preview }) {
             let imageObj = images[0].src;
             return (<Reveal effect="animated fadeInUp" key={index} className={imageClasses} style={{ backgroundColor: bgColor }}>
               {hasTitle && <h2>{imageTitle}</h2>}
-              <Image url={imageObj.url}></Image>
+              <Image url={imageObj?.url}></Image>
             </Reveal>);
           }
           else {
             const imagesArray = images.map((image, index) => {
               const imageObj = image.src;
-              return imageObj.url;
+              return imageObj?.url;
             });
             return (<Reveal effect="animated fadeInUp" className={imageClasses} key={index} style={{ backgroundColor: bgColor }}>
               {hasTitle && <h2>{imageTitle}</h2>}
