@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Reveal from 'react-reveal';
 import { useRouter } from 'next/router';
 import classNames from 'classnames';
@@ -125,6 +125,14 @@ export default function Project({ project, morePosts, preview }) {
   if ((!router.isFallback && !project?.uid) || Object.keys(project).length === 0) {
     return <ErrorPage statusCode={404} />;
   }
+
+ useEffect(() => {
+  document.body.classList.add('light')
+
+  return () => {
+    document.body.classList.remove('light')
+  }
+ }, [])
 
   const { data: { contentArea = [] } = {} } = project
   let slicesArray = [];
