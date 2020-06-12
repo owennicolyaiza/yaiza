@@ -144,52 +144,52 @@ export default function Project({ project, morePosts, preview }) {
   //   slicesArray.push(slice);
   // };
 
-  // const heroPanel = () => {
-  //   const videoFile = project?."casestudy.hero-video-file"] && project?."casestudy.hero-video-file"].value;
-  //   const heroImage = project?."casestudy.hero-image"] && project?."casestudy.hero-image"].url;
-  //   let heroClasses = classNames({
-  //     'hero': true,
-  //     'has-image': heroImage !== undefined,
-  //     'video-container': videoFile !== undefined,
-  //     'active': videoFile !== undefined && this.props.isYoutubeVideoPlaying
-  //   });
-  //   return (videoFile)
-  //     ?
-  //     (<div
-  //       key={videoFile}
-  //       className={heroClasses}>
-  //       {this.props.mobile &&
-  //         <Video
-  //           poster={heroImage}
-  //           id="VideoPlayer"
-  //           onCanPlayThrough={() => {
-  //             // Do stuff 
-  //           }}>
-  //           <source src={`${this.props.videoURL}${videoFile}.webm`} type="video/webm" />
-  //           <source src={`${this.props.videoURL}${videoFile}.mp4`} type="video/mp4" />
-  //         </Video>
-  //       }
-  //       {!this.props.mobile &&
-  //         <Video
-  //           ref={(player) => { this.videoPlayer = player }}
-  //           id="VideoPlayer"
-  //           autoplay
-  //           loop
-  //           poster={heroImage}
-  //           onCanPlayThrough={() => {
-  //           }}>
-  //           <source src={`${this.props.videoURL}${videoFile}.webm`} type="video/webm" />
-  //           <source src={`${this.props.videoURL}${videoFile}.mp4`} type="video/mp4" />
-  //         </Video>
-  //       }
+  const heroPanel = () => {
+    const videoFile = project?.data["hero-video-file"]?.value;
+    const heroImage = project?.data["hero-image"]?.url;
+    let heroClasses = classNames({
+      'hero': true,
+      'has-image': heroImage !== undefined,
+      'video-container': videoFile !== undefined,
+      'active': videoFile !== undefined && this.props.isYoutubeVideoPlaying
+    });
+    return (videoFile)
+      ?
+      (<div
+        key={videoFile}
+        className={heroClasses}>
+        {this.props.mobile &&
+          <Video
+            poster={heroImage}
+            id="VideoPlayer"
+            onCanPlayThrough={() => {
+              // Do stuff 
+            }}>
+            <source src={`${this.props.videoURL}${videoFile}.webm`} type="video/webm" />
+            <source src={`${this.props.videoURL}${videoFile}.mp4`} type="video/mp4" />
+          </Video>
+        }
+        {!this.props.mobile &&
+          <Video
+            ref={(player) => { this.videoPlayer = player }}
+            id="VideoPlayer"
+            autoplay
+            loop
+            poster={heroImage}
+            onCanPlayThrough={() => {
+            }}>
+            <source src={`${this.props.videoURL}${videoFile}.webm`} type="video/webm" />
+            <source src={`${this.props.videoURL}${videoFile}.mp4`} type="video/mp4" />
+          </Video>
+        }
 
-  //     </div>)
-  //     :
-  //     (<div
-  //       key={heroClasses}
-  //       className={heroClasses}
-  //       style={{ 'backgroundImage': `url(${heroImage})` }} />);
-  // };
+      </div>)
+      :
+      (<div
+        key={heroClasses}
+        className={heroClasses}
+        style={{ 'backgroundImage': `url(${heroImage})` }} />);
+  };
 
 
   const pageContentOutput = contentArea.length
@@ -365,7 +365,7 @@ export default function Project({ project, morePosts, preview }) {
         <p>Loading…</p>
       ) : (
           <div id="project" className="container">
-            {/* {heroPanel()} */}
+            {heroPanel()}
             {pageContentOutput}
             {/* <PrevNextLinks projects={this.props.projects} thisID={this.props.params.id} /> */}
             {project?.uid === 'about-me' &&
