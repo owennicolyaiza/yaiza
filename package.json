@@ -26,7 +26,8 @@
     "react-flickity-component": "3.5.0",
     "react-reveal": "1.2.2",
     "sass": "^1.26.7",
-    "woke-dyno": "0.0.4"
+    "woke-dyno": "0.0.4",
+    "react-html5video": "2.5.1"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",

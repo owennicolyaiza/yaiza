@@ -16,7 +16,7 @@ import SVGYaizaLogo from '../../components/SVG/SVGYaizaLogo'
 
 // // External modules
 // import ExecutionEnvironment from 'exenv';
-// import { default as Video, Play, Mute, Seek } from 'react-html5video';
+import { default as Video, Play, Mute, Seek } from 'react-html5video';
 
 
 const Image = (props) => (<div className={props.classes}><img src={props.url} className="img-responsive" /></div>);
@@ -147,6 +147,7 @@ export default function Project({ project, morePosts, preview }) {
   const heroPanel = () => {
     const videoFile = project?.data["hero-video-file"]?.value;
     const heroImage = project?.data["hero-image"]?.url;
+    const heroImageUrl = `${heroImage}&w=1400`
     let heroClasses = classNames({
       'hero': true,
       'has-image': heroImage !== undefined,
@@ -160,7 +161,7 @@ export default function Project({ project, morePosts, preview }) {
         className={heroClasses}>
         {this.props.mobile &&
           <Video
-            poster={heroImage}
+            poster={heroImageUrl}
             id="VideoPlayer"
             onCanPlayThrough={() => {
               // Do stuff 
@@ -175,7 +176,7 @@ export default function Project({ project, morePosts, preview }) {
             id="VideoPlayer"
             autoplay
             loop
-            poster={heroImage}
+            poster={heroImageUrl}
             onCanPlayThrough={() => {
             }}>
             <source src={`${this.props.videoURL}${videoFile}.webm`} type="video/webm" />
@@ -188,7 +189,7 @@ export default function Project({ project, morePosts, preview }) {
       (<div
         key={heroClasses}
         className={heroClasses}
-        style={{ 'backgroundImage': `url(${heroImage})` }} />);
+        style={{ 'backgroundImage': `url(${heroImageUrl})` }} />);
   };
 
 
