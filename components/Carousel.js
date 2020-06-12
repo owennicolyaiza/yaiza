@@ -116,11 +116,11 @@ export default function Carousel({
                     )}
                   </div>
 
-                  <div className="carousel-cell__text">
-                    <h2 data-subtext={data['.homepage-slide-sub-heading']}>
-                      {data['homepage-slide-heading']}
-                    </h2>
-                  </div>
+                </div>
+                <div className="carousel-cell__text">
+                  <h2 data-subtext={data['homepage-slide-sub-heading']}>
+                    {data['homepage-slide-heading']}
+                  </h2>
                 </div>
               </a>
             </Link>
