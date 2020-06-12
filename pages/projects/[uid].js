@@ -5,7 +5,6 @@ import classNames from 'classnames';
 import Head from 'next/head';
 import ErrorPage from 'next/error';
 import Container from '../../components/container';
-import Header from '../../components/header';
 import { getAllProjects, getProject } from '../../lib/api';
 import { CMS_NAME } from '../../lib/constants';
 import { RichText } from 'prismic-reactjs';
@@ -353,7 +352,6 @@ export default function Project({ project, morePosts, preview, paths }) {
 
   return (
     <Container>
-      <Header />
       {router.isFallback ? (
         <p>Loading…</p>
       ) : (
