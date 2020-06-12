@@ -21,37 +21,34 @@ import { default as Video, Play, Mute, Seek } from 'react-html5video';
 
 const Image = (props) => (<div className={props.classes}><img src={props.url} className="img-responsive" /></div>);
 
-const PrevNextLinks = ({ projects, thisID }) => {
-  const thisIndex = projects && projects.findIndex(project => project?.uid === thisID);
-  const nextProjectURL = projects && thisIndex !== projects.length - 1 && `/projects/${projects[(thisIndex + 1)].uid}`;
-  const prevProjectURL = projects && thisIndex > 0 && `/projects/${projects[(thisIndex - 1)].uid}`;
+const PrevNextLinks = ({ paths, uid }) => {
+  const thisIndex = paths.findIndex(path => path === `/projects/${uid}`);
+  const nextProjectURL = thisIndex !== paths.length - 1 && `${paths[(thisIndex + 1)]}`;
+  const prevProjectURL = thisIndex > 0 && `${paths[(thisIndex - 1)]}`;
 
 
   return (
-
     <div className="prev-next-links-container animated fadeIn delayed-animation">
-      {nextProjectURL && thisID === 'about-me' &&
+      {nextProjectURL && uid === 'about-me' &&
         <div className="prev">
           <a className="prev-link" href={nextProjectURL}>My Latest Projects</a>
         </div>
       }
-      {thisID === 'about-me' &&
+      {uid === 'about-me' &&
         <div className="next image">
           <img src="/assets/me-laughing-web.jpg" className="img-responsive" />
         </div>
       }
-      {prevProjectURL && thisID !== 'about-me' &&
+      {prevProjectURL && uid !== 'about-me' &&
         <div className="prev">
           <a className="prev-link" href={prevProjectURL}>Previous Project</a>
         </div>}
-      {nextProjectURL && thisID !== 'about-me' &&
+      {nextProjectURL && uid !== 'about-me' &&
         <div className="next">
           <a className="next-link" href={nextProjectURL}>Next Project</a>
         </div>}
     </div>
-
   );
-
 }
 
 class ProjectContainer extends React.Component {
@@ -117,12 +114,14 @@ class ProjectContainer extends React.Component {
 }
 
 
-export default function Project({ project, morePosts, preview }) {
+export default function Project({ project, morePosts, preview, paths }) {
   const router = useRouter();
 
   if (!project) return null;
 
-  if ((!router.isFallback && !project?.uid) || Object.keys(project).length === 0) {
+  const { uid } = project;
+
+  if ((!router.isFallback && !uid) || Object.keys(project).length === 0) {
     return <ErrorPage statusCode={404} />;
   }
 
@@ -136,14 +135,7 @@ export default function Project({ project, morePosts, preview }) {
 
   const { data: { contentArea = [] } = {} } = project
   let slicesArray = [];
-  // if (!project?.getSliceZone('casestudy.contentArea')) return null
-  // const description = project?.'casestudy.meta-description'] && project?.'casestudy.meta-description'].asText()
-  // const keywords = project?.'casestudy.meta-keywords'] && project?.'casestudy.meta-keywords'].asText()
-  // // map through each slice and output into array
-  // for (let slice of project?.getSliceZone('casestudy.contentArea').slices) {
-  //   slicesArray.push(slice);
-  // };
-
+ 
   const heroPanel = () => {
     const videoFile = project?.data["hero-video-file"]?.value;
     const heroImage = project?.data["hero-image"]?.url;
@@ -368,8 +360,8 @@ export default function Project({ project, morePosts, preview }) {
           <div id="project" className="container">
             {heroPanel()}
             {pageContentOutput}
-            {/* <PrevNextLinks projects={this.props.projects} thisID={this.props.params.id} /> */}
-            {project?.uid === 'about-me' &&
+            <PrevNextLinks paths={paths} uid={uid} />
+            {uid === 'about-me' &&
               <div className="yai-logo-container">
                 <SVGYaizaLogo width={350} height={115} className="yai-logo" />
               </div>
@@ -380,19 +372,24 @@ export default function Project({ project, morePosts, preview }) {
   );
 }
 
+export async function getProjectPaths() {
+  const allProjects = await getAllProjects();
+  return allProjects.results?.map(({ uid }) => `/projects/${uid}`) || []
+}
+
 export async function getStaticProps({ params, preview = false }) {
   return {
     props: {
       preview,
       project: (await getProject(params?.uid)) ?? null,
+      paths: (await getProjectPaths()) ?? null
     },
   };
 }
 
 export async function getStaticPaths() {
-  const allProjects = await getAllProjects();
   return {
-    paths: allProjects.results?.map(({ uid }) => `/projects/${uid}`) || [],
+    paths: (await getProjectPaths()) ?? null,
     fallback: true,
   };
 }
