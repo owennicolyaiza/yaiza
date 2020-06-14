@@ -24,7 +24,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-flickity-component": "3.5.0",
-    "react-reveal": "0.1.1",
+    "react-reveal": "1.2.2",
     "sass": "^1.26.7",
     "woke-dyno": "0.0.4",
     "react-html5video": "2.5.1"
