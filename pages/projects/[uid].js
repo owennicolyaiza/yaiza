@@ -199,7 +199,11 @@ export default function Project({ project, morePosts, preview, paths }) {
           </Fade>);
         case 'Content Dark':
           const contentDarkClasses = `content-container content-container--dark ${sliceLabel}`;
-          return (<Fade bottom className={contentDarkClasses} key={index}><RichText render={slice.value} /></Fade>);
+          return (<Fade bottom key={index}>
+            <div className={contentDarkClasses}>
+              <RichText render={slice.value} />
+            </div>
+          </Fade>);
         case 'Logo':
           const logoBGColor = sliceValue["background-colour"];
           const logoCaption = sliceValue["caption"];
@@ -207,16 +211,18 @@ export default function Project({ project, morePosts, preview, paths }) {
           const logoClasses = `logo-container ${sliceLabel} ${hasCaption}`;
           const logoIcon = sliceValue["icon"];
           return (
-            <Fade bottom className={logoClasses} key={index} style={{ backgroundColor: logoBGColor }}>
-              <div>
-                {logoIcon &&
-                  <div className="image-roll-icon">
-                    <img src={logoIcon} className="img-responsive" />
-                  </div>
-                }
-                {logoCaption &&
-                  <h6>{logoCaption}</h6>
-                }
+            <Fade bottom key={index}>
+              <div className={logoClasses} style={{ backgroundColor: logoBGColor }}>
+                <div>
+                  {logoIcon &&
+                    <div className="image-roll-icon">
+                      <img src={logoIcon} className="img-responsive" />
+                    </div>
+                  }
+                  {logoCaption &&
+                    <h6>{logoCaption}</h6>
+                  }
+                </div>
               </div>
             </Fade>
           );
@@ -228,27 +234,29 @@ export default function Project({ project, morePosts, preview, paths }) {
           const imageRolloverIcon = sliceValue["rollover-icon"].url;
           const imageRolloverText = sliceValue["rollover-text"];
           return (
-            <Fade bottom className={imageRollClasses} key={index}>
-              <div className="image-roll-default" style={{ backgroundColor: imageRollColor }}>
-                {imageRollIcon &&
-                  <div className="image-roll-icon">
-                    <img src={imageRollIcon} className="img-responsive" />
-                  </div>
-                }
-              </div>
-              <div className="image-roll-over-container" style={{ backgroundColor: imageRollColor }}>
-                <div className="image-roll-over-image" style={{ backgroundImage: `url(${imageRollBgImage})` }} />
-                <div className="image-roll-over-assets">
-                  {imageRolloverIcon &&
-                    <div className="image-roll-over-icon">
-                      <img src={imageRolloverIcon} className="img-responsive" />
+            <Fade bottom key={index}>
+              <div className={imageRollClasses}>
+                <div className="image-roll-default" style={{ backgroundColor: imageRollColor }}>
+                  {imageRollIcon &&
+                    <div className="image-roll-icon">
+                      <img src={imageRollIcon} className="img-responsive" />
                     </div>
                   }
-                  {imageRolloverText &&
-                    <div className="image-roll-over-text">
-                      <p>{imageRolloverText}</p>
-                    </div>
-                  }</div>
+                </div>
+                <div className="image-roll-over-container" style={{ backgroundColor: imageRollColor }}>
+                  <div className="image-roll-over-image" style={{ backgroundImage: `url()` }} />
+                  <div className="image-roll-over-assets">
+                    {imageRolloverIcon &&
+                      <div className="image-roll-over-icon">
+                        <img src={imageRolloverIcon} className="img-responsive" />
+                      </div>
+                    }
+                    {imageRolloverText &&
+                      <div className="image-roll-over-text">
+                        <p>{imageRolloverText}</p>
+                      </div>
+                    }</div>
+                </div>
               </div>
             </Fade>
           );
@@ -262,22 +270,24 @@ export default function Project({ project, morePosts, preview, paths }) {
             default:
             case 'left-side-tall': {
               return (
-                <Fade bottom className="one-side-tall-container" key={index}>
-                  <div className="one-side-tall">
-                    <div className="tall half-width">
-                      <img src={oneSideTallTImage} className="img-responsive" />
-                    </div>
-                    <div className="others half-width">
-                      {!oneSideTallTopSImage && oneSideTallText &&
-                        <div className="content" dangerouslySetInnerHTML={{ __html: oneSideTallText }} />
-                      }
-                      {oneSideTallTopSImage &&
+                <Fade bottom key={index}>
+                  <div className="one-side-tall-container">
+                    <div className="one-side-tall">
+                      <div className="tall half-width">
+                        <img src={oneSideTallTImage} className="img-responsive" />
+                      </div>
+                      <div className="others half-width">
+                        {!oneSideTallTopSImage && oneSideTallText &&
+                          <div className="content" dangerouslySetInnerHTML={{ __html: oneSideTallText }} />
+                        }
+                        {oneSideTallTopSImage &&
+                          <div>
+                            <img src={oneSideTallTopSImage} className="img-responsive" />
+                          </div>
+                        }
                         <div>
-                          <img src={oneSideTallTopSImage} className="img-responsive" />
+                          <img src={oneSideTallSImage} className="img-responsive" />
                         </div>
-                      }
-                      <div>
-                        <img src={oneSideTallSImage} className="img-responsive" />
                       </div>
                     </div>
                   </div>
@@ -286,23 +296,25 @@ export default function Project({ project, morePosts, preview, paths }) {
             }
             case 'right-side-tall': {
               return (
-                <Fade bottom className="one-side-tall-container" key={index}>
-                  <div className="one-side-tall">
-                    <div className="others half-width">
-                      {!oneSideTallTopSImage && oneSideTallText &&
-                        <div className="content" dangerouslySetInnerHTML={{ __html: oneSideTallText }} />
-                      }
-                      {oneSideTallTopSImage &&
+                <Fade bottom key={index}>
+                  <div className="one-side-tall-container">
+                    <div className="one-side-tall">
+                      <div className="others half-width">
+                        {!oneSideTallTopSImage && oneSideTallText &&
+                          <div className="content" dangerouslySetInnerHTML={{ __html: oneSideTallText }} />
+                        }
+                        {oneSideTallTopSImage &&
+                          <div>
+                            <img src={oneSideTallTopSImage} className="img-responsive" />
+                          </div>
+                        }
                         <div>
-                          <img src={oneSideTallTopSImage} className="img-responsive" />
+                          <img src={oneSideTallSImage} className="img-responsive" />
                         </div>
-                      }
-                      <div>
-                        <img src={oneSideTallSImage} className="img-responsive" />
                       </div>
-                    </div>
-                    <div className="tall half-width">
-                      <img src={oneSideTallTImage} className="img-responsive" />
+                      <div className="tall half-width">
+                        <img src={oneSideTallTImage} className="img-responsive" />
+                      </div>
                     </div>
                   </div>
                 </Fade>
@@ -314,17 +326,21 @@ export default function Project({ project, morePosts, preview, paths }) {
           const quoteText = sliceValue["quote-text"];
           const quoteSource = sliceValue["quote-source"];
           return (
-            <Fade bottom className={quoteClasses} key={index} style={{ backgroundColor: '#000', color: '#fff' }}>
-              <div>
-                <p className="quote-text">{quoteText}</p>
-                <p className="quote-source">{quoteSource}</p>
+            <Fade bottom key={index}>
+              <div className={quoteClasses} style={{ backgroundColor: '#000', color: '#fff' }}>
+                <div>
+                  <p className="quote-text">{quoteText}</p>
+                  <p className="quote-source">{quoteSource}</p>
+                </div>
               </div>
             </Fade>);
         case 'Sub Heading':
           const subHeadingText = slice.value;
           return (
-            <Fade bottom className="sub-heading-container" key={index}>
-              <h2>{subHeadingText}</h2>
+            <Fade bottom key={index}>
+              <div className="sub-heading-container" >
+                <h2>{subHeadingText}</h2>
+              </div>
             </Fade>);
         case 'images':
           const images = slice.value;
@@ -336,20 +352,28 @@ export default function Project({ project, morePosts, preview, paths }) {
           if (!images.length) return;
           if (images.length === 1) {
             let imageObj = images[0].src;
-            return (<Fade bottom key={index} className={imageClasses} style={{ backgroundColor: bgColor }}>
-              {hasTitle && <h2>{imageTitle}</h2>}
-              <Image url={imageObj?.url}></Image>
-            </Fade>);
+            return (
+              <Fade bottom key={index}>
+                <div className={imageClasses} style={{ backgroundColor: bgColor }}>
+                  {hasTitle && <h2>{imageTitle}</h2>}
+                  <Image url={imageObj?.url}></Image>
+                </div>
+              </Fade>
+            );
           }
           else {
             const imagesArray = images.map((image, index) => {
               const imageObj = image.src;
               return imageObj?.url;
             });
-            return (<Fade bottom className={imageClasses} key={index} style={{ backgroundColor: bgColor }}>
-              {hasTitle && <h2>{imageTitle}</h2>}
-              <ImageSlider key={index} images={imagesArray} />
-            </Fade>);
+            return (
+              <Fade bottom key={index}>
+                <div className={imageClasses} style={{ backgroundColor: bgColor }}>
+                  {hasTitle && <h2>{imageTitle}</h2>}
+                  <ImageSlider key={index} images={imagesArray} />
+                </div>
+              </Fade>
+            );
           }
       }
     })
