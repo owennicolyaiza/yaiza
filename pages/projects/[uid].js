@@ -244,7 +244,7 @@ export default function Project({ project, morePosts, preview, paths }) {
                   }
                 </div>
                 <div className="image-roll-over-container" style={{ backgroundColor: imageRollColor }}>
-                  <div className="image-roll-over-image" style={{ backgroundImage: `url()` }} />
+                  <div className="image-roll-over-image" style={{ backgroundImage: `url(${imageRollBgImage})` }} />
                   <div className="image-roll-over-assets">
                     {imageRolloverIcon &&
                       <div className="image-roll-over-icon">
