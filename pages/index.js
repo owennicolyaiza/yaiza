@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
-import Container from '../components/container';
 import { getAllProjectsForHome } from '../lib/api';
 import Carousel from '../components/Carousel';
 
@@ -17,7 +16,7 @@ export default function Index({ preview, results }) {
         <meta name="description" content="hello Yaiza" />
         <meta name="keywords" content="some words" />
       </Head>
-      <Container>
+      
         <Carousel
           homepageContent={results}
           homepageSlide={homepageSlide}
@@ -30,7 +29,6 @@ export default function Index({ preview, results }) {
               </Link>
             </p>
           ))} */}
-      </Container>
     </>
   );
 }

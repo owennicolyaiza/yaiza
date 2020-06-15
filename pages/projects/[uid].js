@@ -1,10 +1,9 @@
-import React, {useEffect} from 'react';
-import Reveal from 'react-reveal';
+import React, { useEffect } from 'react';
+import Fade from 'react-reveal/Fade';
 import { useRouter } from 'next/router';
 import classNames from 'classnames';
 import Head from 'next/head';
 import ErrorPage from 'next/error';
-import Container from '../../components/container';
 import { getAllProjects, getProject } from '../../lib/api';
 import { CMS_NAME } from '../../lib/constants';
 import { RichText } from 'prismic-reactjs';
@@ -124,17 +123,17 @@ export default function Project({ project, morePosts, preview, paths }) {
     return <ErrorPage statusCode={404} />;
   }
 
- useEffect(() => {
-  document.body.classList.add('light')
+  useEffect(() => {
+    document.body.classList.add('light')
 
-  return () => {
-    document.body.classList.remove('light')
-  }
- }, [])
+    return () => {
+      document.body.classList.remove('light')
+    }
+  }, [])
 
   const { data: { contentArea = [] } = {} } = project
   let slicesArray = [];
- 
+
   const heroPanel = () => {
     const videoFile = project?.data["hero-video-file"]?.value;
     const heroImage = project?.data["hero-image"]?.url;
@@ -191,10 +190,16 @@ export default function Project({ project, morePosts, preview, paths }) {
       switch (slice.slice_type) {
         case 'content':
           const contentClasses = `content-container ${sliceLabel}`;
-          return (<Reveal effect="animated fadeInUp" className={contentClasses} key={index}><RichText render={slice.value} /></Reveal>);
+          return (<Fade bottom data-cheese="true" key={index}>
+            <div className={contentClasses}>
+              <div>
+                <RichText render={slice.value} />
+              </div>
+            </div>
+          </Fade>);
         case 'Content Dark':
           const contentDarkClasses = `content-container content-container--dark ${sliceLabel}`;
-          return (<Reveal effect="animated fadeInUp" className={contentDarkClasses} key={index}><RichText render={slice.value} /></Reveal>);
+          return (<Fade bottom className={contentDarkClasses} key={index}><RichText render={slice.value} /></Fade>);
         case 'Logo':
           const logoBGColor = sliceValue["background-colour"];
           const logoCaption = sliceValue["caption"];
@@ -202,7 +207,7 @@ export default function Project({ project, morePosts, preview, paths }) {
           const logoClasses = `logo-container ${sliceLabel} ${hasCaption}`;
           const logoIcon = sliceValue["icon"];
           return (
-            <Reveal effect="animated fadeInUp" className={logoClasses} key={index} style={{ backgroundColor: logoBGColor }}>
+            <Fade bottom className={logoClasses} key={index} style={{ backgroundColor: logoBGColor }}>
               <div>
                 {logoIcon &&
                   <div className="image-roll-icon">
@@ -213,7 +218,7 @@ export default function Project({ project, morePosts, preview, paths }) {
                   <h6>{logoCaption}</h6>
                 }
               </div>
-            </Reveal>
+            </Fade>
           );
         case 'Image Rollover':
           const imageRollClasses = `image-roll-container ${sliceLabel}`;
@@ -223,7 +228,7 @@ export default function Project({ project, morePosts, preview, paths }) {
           const imageRolloverIcon = sliceValue["rollover-icon"].url;
           const imageRolloverText = sliceValue["rollover-text"];
           return (
-            <Reveal effect="animated fadeInUp" className={imageRollClasses} key={index}>
+            <Fade bottom className={imageRollClasses} key={index}>
               <div className="image-roll-default" style={{ backgroundColor: imageRollColor }}>
                 {imageRollIcon &&
                   <div className="image-roll-icon">
@@ -245,7 +250,7 @@ export default function Project({ project, morePosts, preview, paths }) {
                     </div>
                   }</div>
               </div>
-            </Reveal>
+            </Fade>
           );
         case 'One Side Tall':
           const oneSideTallTImage = sliceValue["tallImage"].url;
@@ -257,7 +262,7 @@ export default function Project({ project, morePosts, preview, paths }) {
             default:
             case 'left-side-tall': {
               return (
-                <Reveal effect="animated fadeInUp" className="one-side-tall-container" key={index}>
+                <Fade bottom className="one-side-tall-container" key={index}>
                   <div className="one-side-tall">
                     <div className="tall half-width">
                       <img src={oneSideTallTImage} className="img-responsive" />
@@ -276,12 +281,12 @@ export default function Project({ project, morePosts, preview, paths }) {
                       </div>
                     </div>
                   </div>
-                </Reveal>
+                </Fade>
               )
             }
             case 'right-side-tall': {
               return (
-                <Reveal effect="animated fadeInUp" className="one-side-tall-container" key={index}>
+                <Fade bottom className="one-side-tall-container" key={index}>
                   <div className="one-side-tall">
                     <div className="others half-width">
                       {!oneSideTallTopSImage && oneSideTallText &&
@@ -300,7 +305,7 @@ export default function Project({ project, morePosts, preview, paths }) {
                       <img src={oneSideTallTImage} className="img-responsive" />
                     </div>
                   </div>
-                </Reveal>
+                </Fade>
               )
             }
           }
@@ -309,18 +314,18 @@ export default function Project({ project, morePosts, preview, paths }) {
           const quoteText = sliceValue["quote-text"];
           const quoteSource = sliceValue["quote-source"];
           return (
-            <Reveal effect="animated fadeInUp" className={quoteClasses} key={index} style={{ backgroundColor: '#000', color: '#fff' }}>
+            <Fade bottom className={quoteClasses} key={index} style={{ backgroundColor: '#000', color: '#fff' }}>
               <div>
                 <p className="quote-text">{quoteText}</p>
                 <p className="quote-source">{quoteSource}</p>
               </div>
-            </Reveal>);
+            </Fade>);
         case 'Sub Heading':
           const subHeadingText = slice.value;
           return (
-            <Reveal effect="animated fadeInUp" className="sub-heading-container" key={index}>
+            <Fade bottom className="sub-heading-container" key={index}>
               <h2>{subHeadingText}</h2>
-            </Reveal>);
+            </Fade>);
         case 'images':
           const images = slice.value;
           const isCentered = images[0].centered === 'Yes' ? 'centered-image' : '';
@@ -331,27 +336,27 @@ export default function Project({ project, morePosts, preview, paths }) {
           if (!images.length) return;
           if (images.length === 1) {
             let imageObj = images[0].src;
-            return (<Reveal effect="animated fadeInUp" key={index} className={imageClasses} style={{ backgroundColor: bgColor }}>
+            return (<Fade bottom key={index} className={imageClasses} style={{ backgroundColor: bgColor }}>
               {hasTitle && <h2>{imageTitle}</h2>}
               <Image url={imageObj?.url}></Image>
-            </Reveal>);
+            </Fade>);
           }
           else {
             const imagesArray = images.map((image, index) => {
               const imageObj = image.src;
               return imageObj?.url;
             });
-            return (<Reveal effect="animated fadeInUp" className={imageClasses} key={index} style={{ backgroundColor: bgColor }}>
+            return (<Fade bottom className={imageClasses} key={index} style={{ backgroundColor: bgColor }}>
               {hasTitle && <h2>{imageTitle}</h2>}
               <ImageSlider key={index} images={imagesArray} />
-            </Reveal>);
+            </Fade>);
           }
       }
     })
     : null;
 
   return (
-    <Container>
+    <>
       {router.isFallback ? (
         <p>Loading…</p>
       ) : (
@@ -366,7 +371,7 @@ export default function Project({ project, morePosts, preview, paths }) {
             }
           </div>
         )}
-    </Container>
+    </>
   );
 }
 
