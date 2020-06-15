@@ -76,13 +76,13 @@
   a {
     position: relative;
     padding-bottom: 6px;
-    color: #fff;
+    color: #000;
     font-weight: bold;
     &:hover,
     &:active,
     &:focus,
     &:visited {
-      color: #fff;
+      color: #000;
       text-decoration: none;
       &::after {
         transform: scale(1, 1);
