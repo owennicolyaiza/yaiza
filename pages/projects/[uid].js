@@ -380,7 +380,7 @@ export default function Project({ project, morePosts, preview, paths }) {
     : null;
 
   return (
-    <>
+    <div id="wrapper">
       {router.isFallback ? (
         <p>Loading…</p>
       ) : (
@@ -395,7 +395,7 @@ export default function Project({ project, morePosts, preview, paths }) {
             }
           </div>
         )}
-    </>
+    </div>
   );
 }
 
