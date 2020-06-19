@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Fade from 'react-reveal/Fade';
 import { useRouter } from 'next/router';
 import classNames from 'classnames';
@@ -15,6 +15,7 @@ import SVGYaizaLogo from '../../components/SVG/SVGYaizaLogo'
 // // External modules
 // import ExecutionEnvironment from 'exenv';
 import { default as Video, Play, Mute, Seek } from 'react-html5video';
+import Link from 'next/link';
 
 
 const Image = (props) => (<div className={props.classes}><img src={props.url} className="img-responsive" /></div>);
@@ -43,7 +44,9 @@ const PrevNextLinks = ({ paths, uid }) => {
         </div>}
       {nextProjectURL && uid !== 'about-me' &&
         <div className="next">
-          <a className="next-link" href={nextProjectURL}>Next Project</a>
+          <Link href='/projects/[uid]' as={'/projects/nexio'}>
+          <a className="next-link">Next Project</a>
+          </Link>
         </div>}
     </div>
   );
@@ -114,6 +117,7 @@ class ProjectContainer extends React.Component {
 
 export default function Project({ project, morePosts, preview, paths }) {
   const router = useRouter();
+  const [loaded, setLoaded] = useState(false)
 
   if (!project) return null;
 
@@ -125,6 +129,7 @@ export default function Project({ project, morePosts, preview, paths }) {
 
   useEffect(() => {
     document.body.classList.add('light')
+    setLoaded(true)
 
     return () => {
       document.body.classList.remove('light')
@@ -190,7 +195,7 @@ export default function Project({ project, morePosts, preview, paths }) {
       switch (slice.slice_type) {
         case 'content':
           const contentClasses = `content-container ${sliceLabel}`;
-          return (<Fade bottom data-cheese="true" key={index}>
+          return (<Fade bottom spy={uid} appear={true} data-cheese="true" key={index}>
             <div className={contentClasses}>
               <div>
                 <RichText render={slice.value} />
@@ -199,7 +204,7 @@ export default function Project({ project, morePosts, preview, paths }) {
           </Fade>);
         case 'Content Dark':
           const contentDarkClasses = `content-container content-container--dark ${sliceLabel}`;
-          return (<Fade bottom key={index}>
+          return (<Fade bottom spy={uid} appear={true} key={index}>
             <div className={contentDarkClasses}>
               <RichText render={slice.value} />
             </div>
@@ -211,7 +216,7 @@ export default function Project({ project, morePosts, preview, paths }) {
           const logoClasses = `logo-container ${sliceLabel} ${hasCaption}`;
           const logoIcon = sliceValue["icon"];
           return (
-            <Fade bottom key={index}>
+            <Fade bottom spy={uid} appear={true} key={index}>
               <div className={logoClasses} style={{ backgroundColor: logoBGColor }}>
                 <div>
                   {logoIcon &&
@@ -234,7 +239,7 @@ export default function Project({ project, morePosts, preview, paths }) {
           const imageRolloverIcon = sliceValue["rollover-icon"].url;
           const imageRolloverText = sliceValue["rollover-text"];
           return (
-            <Fade bottom key={index}>
+            <Fade bottom spy={uid} appear={true} key={index}>
               <div className={imageRollClasses}>
                 <div className="image-roll-default" style={{ backgroundColor: imageRollColor }}>
                   {imageRollIcon &&
@@ -270,7 +275,7 @@ export default function Project({ project, morePosts, preview, paths }) {
             default:
             case 'left-side-tall': {
               return (
-                <Fade bottom key={index}>
+                <Fade bottom spy={uid} appear={true} key={index}>
                   <div className="one-side-tall-container">
                     <div className="one-side-tall">
                       <div className="tall half-width">
@@ -296,7 +301,7 @@ export default function Project({ project, morePosts, preview, paths }) {
             }
             case 'right-side-tall': {
               return (
-                <Fade bottom key={index}>
+                <Fade bottom spy={uid} appear={true} key={index}>
                   <div className="one-side-tall-container">
                     <div className="one-side-tall">
                       <div className="others half-width">
@@ -326,7 +331,7 @@ export default function Project({ project, morePosts, preview, paths }) {
           const quoteText = sliceValue["quote-text"];
           const quoteSource = sliceValue["quote-source"];
           return (
-            <Fade bottom key={index}>
+            <Fade bottom spy={uid} appear={true} key={index}>
               <div className={quoteClasses} style={{ backgroundColor: '#000', color: '#fff' }}>
                 <div>
                   <p className="quote-text">{quoteText}</p>
@@ -337,7 +342,7 @@ export default function Project({ project, morePosts, preview, paths }) {
         case 'Sub Heading':
           const subHeadingText = slice.value;
           return (
-            <Fade bottom key={index}>
+            <Fade bottom spy={uid} appear={true} key={index}>
               <div className="sub-heading-container" >
                 <h2>{subHeadingText}</h2>
               </div>
@@ -353,7 +358,7 @@ export default function Project({ project, morePosts, preview, paths }) {
           if (images.length === 1) {
             let imageObj = images[0].src;
             return (
-              <Fade bottom key={index}>
+              <Fade bottom spy={uid} appear={true} key={index}>
                 <div className={imageClasses} style={{ backgroundColor: bgColor }}>
                   {hasTitle && <h2>{imageTitle}</h2>}
                   <Image url={imageObj?.url}></Image>
@@ -367,7 +372,7 @@ export default function Project({ project, morePosts, preview, paths }) {
               return imageObj?.url;
             });
             return (
-              <Fade bottom key={index}>
+              <Fade bottom spy={uid} appear={true} key={index}>
                 <div className={imageClasses} style={{ backgroundColor: bgColor }}>
                   {hasTitle && <h2>{imageTitle}</h2>}
                   <ImageSlider key={index} images={imagesArray} />
