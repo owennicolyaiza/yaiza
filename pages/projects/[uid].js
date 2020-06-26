@@ -16,6 +16,7 @@ import SVGYaizaLogo from '../../components/SVG/SVGYaizaLogo'
 // import ExecutionEnvironment from 'exenv';
 import { default as Video, Play, Mute, Seek } from 'react-html5video';
 import Link from 'next/link';
+import HeroPanel from '../../components/HeroPanel';
 
 
 const Image = (props) => (<div className={props.classes}><img src={props.url} className="img-responsive" /></div>);
@@ -119,9 +120,8 @@ class ProjectContainer extends React.Component {
 }
 
 
-export default function Project({ project, morePosts, preview, paths }) {
+export default function Project({ project, preview, paths }) {
   const router = useRouter();
-  const [loaded, setLoaded] = useState(false)
 
   if (!project) return null;
 
@@ -133,7 +133,6 @@ export default function Project({ project, morePosts, preview, paths }) {
 
   useEffect(() => {
     document.body.classList.add('light')
-    setLoaded(true)
 
     return () => {
       document.body.classList.remove('light')
@@ -142,55 +141,6 @@ export default function Project({ project, morePosts, preview, paths }) {
 
   const { data: { contentArea = [] } = {} } = project
   let slicesArray = [];
-
-  const heroPanel = () => {
-    const videoFile = project?.data["hero-video-file"]?.value;
-    const heroImage = project?.data["hero-image"]?.url;
-    const heroImageUrl = `${heroImage}&w=1400`
-    let heroClasses = classNames({
-      'hero': true,
-      'has-image': heroImage !== undefined,
-      'video-container': videoFile !== undefined,
-      'active': videoFile !== undefined && this.props.isYoutubeVideoPlaying
-    });
-    return (videoFile)
-      ?
-      (<div
-        key={videoFile}
-        className={heroClasses}>
-        {this.props.mobile &&
-          <Video
-            poster={heroImageUrl}
-            id="VideoPlayer"
-            onCanPlayThrough={() => {
-              // Do stuff 
-            }}>
-            <source src={`${this.props.videoURL}${videoFile}.webm`} type="video/webm" />
-            <source src={`${this.props.videoURL}${videoFile}.mp4`} type="video/mp4" />
-          </Video>
-        }
-        {!this.props.mobile &&
-          <Video
-            ref={(player) => { this.videoPlayer = player }}
-            id="VideoPlayer"
-            autoplay
-            loop
-            poster={heroImageUrl}
-            onCanPlayThrough={() => {
-            }}>
-            <source src={`${this.props.videoURL}${videoFile}.webm`} type="video/webm" />
-            <source src={`${this.props.videoURL}${videoFile}.mp4`} type="video/mp4" />
-          </Video>
-        }
-
-      </div>)
-      :
-      (<div
-        key={heroClasses}
-        className={heroClasses}
-        style={{ 'backgroundImage': `url(${heroImageUrl})` }} />);
-  };
-
 
   const pageContentOutput = contentArea.length
     ? contentArea.map((slice, index) => {
@@ -218,7 +168,7 @@ export default function Project({ project, morePosts, preview, paths }) {
           const logoCaption = sliceValue["caption"];
           const hasCaption = logoCaption ? 'has-caption' : '';
           const logoClasses = `logo-container ${sliceLabel} ${hasCaption}`;
-          const logoIcon = sliceValue["icon"];
+          const logoIcon = sliceValue["icon"].url;
           return (
             <Fade bottom spy={uid} appear={true} key={index}>
               <div className={logoClasses} style={{ backgroundColor: logoBGColor }}>
@@ -274,6 +224,7 @@ export default function Project({ project, morePosts, preview, paths }) {
           const oneSideTallTopSImage = sliceValue["otherSideTopImage"].url;
           const oneSideTallSImage = sliceValue["otherSideBottomImage"].url;
           const oneSideTallText = sliceValue["otherSideTopText"];
+          console.log('====> oneSideTallText:', oneSideTallText)
 
           switch (sliceLabel) {
             default:
@@ -394,14 +345,8 @@ export default function Project({ project, morePosts, preview, paths }) {
         <p>Loading…</p>
       ) : (
           <div id="project" className="container">
-            {heroPanel()}
+            <HeroPanel project={project} />
             {pageContentOutput}
-            <PrevNextLinks paths={paths} uid={uid} />
-            {uid === 'about-me' &&
-              <div className="yai-logo-container">
-                <SVGYaizaLogo width={350} height={115} className="yai-logo" />
-              </div>
-            }
           </div>
         )}
     </div>

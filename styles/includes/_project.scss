@@ -335,6 +335,11 @@
       }
     }
   }
+
+  .hero {
+    opacity: 0;
+    visibility: hidden;
+  }
   .hero.has-image {
     background-repeat: no-repeat;
     background-position: center center;

@@ -22,13 +22,6 @@ export default function Index({ preview, results }) {
           homepageSlide={homepageSlide}
           setHomepageSlide={handleSetHomepageSlide}
         />
-        {/* {results.map(result => (
-            <p key={result.uid}>
-              <Link href="/projects/[uid]" as={`/projects/${result.uid}`}>
-                <a>{result.uid}</a>
-              </Link>
-            </p>
-          ))} */}
     </>
   );
 }
