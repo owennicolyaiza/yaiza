@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import classNames from 'classnames';
 import Fade from 'react-reveal/Fade';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
@@ -85,7 +86,6 @@ class ProjectContainer extends React.Component {
 
 export default function Project({ project, preview, paths }) {
   const router = useRouter();
-  console.log('====> project:', project)
 
   if (!project) return null;
 
@@ -104,73 +104,40 @@ export default function Project({ project, preview, paths }) {
   }, [])
 
   const { data: { contentArea = [] } = {} } = project
-  let slicesArray = [];
 
   const pageContentOutput = contentArea.length
     ? contentArea.map((slice, index) => {
       const sliceLabel = slice.slice_label || '';
-      const sliceValue = slice.value[0] || {}
-      switch (slice.sliceType) {
+      const sliceValue = slice.value
+      switch (slice.slice_type) {
         case 'Content':
           const contentClasses = `content-container ${sliceLabel}`;
-          return (<Reveal effect="animated fadeInUp" className={contentClasses} key={index}><div dangerouslySetInnerHTML={{ __html: sliceValue }} /></Reveal>);
+          return (<Fade bottom spy={uid} key={index}>
+            <div className={contentClasses}>
+              <RichText render={sliceValue} />
+            </div>
+          </Fade>);
         case 'Content Dark':
           const contentDarkClasses = `content-container content-container--dark ${sliceLabel}`;
-          return (<Reveal effect="animated fadeInUp" className={contentDarkClasses} key={index}><div dangerouslySetInnerHTML={{ __html: sliceValue }} /></Reveal>);
+          return (<Fade bottom spy={uid} key={index}>
+            <div className={contentDarkClasses}>
+              <RichText render={sliceValue} />
+            </div>
+          </Fade>)
         case 'Image':
-          const image = slice.value.value;
+          const image = sliceValue[0]
           const imageClasses = `projects-image-container ${sliceLabel}`;
-          if (!image.length) return;
-          if (image.length === 1) {
-            let imageObj = image[0].fragments.Image.main;
-            let linkUID = image[0].fragments.Link.uid;
-            let heading = image[0].fragments.Heading && image[0].fragments.Heading.value;
-            let subHeading = image[0].fragments.Subheading && image[0].fragments.Subheading.value;
-            subHeading = subHeading && subHeading.split(',');
-            return (<Reveal effect="animated fadeInUp" key={index} className={imageClasses}>
-              <Link to={`/projects/${linkUID}`}>
-                <div className="projects-image-container__angle"></div>
-                <div className="projects-image-container__content">
-                  <h2>
-                    {heading}
-                  </h2>
-                  <div className="sub-headings">
-                    {subHeading && subHeading.map((word, index) => <p key={index}>{word}</p>)}
-                  </div>
-                </div>
-                <Image url={imageObj.url}></Image>
-              </Link>
-            </Reveal>);
-          }
-        case 'Image Group':
-          const imageGroup = slice.value.value;
-          const imageGroupClasses = 'projects-image-group-container';
-          if (!imageGroup.length) return;
-          if (imageGroup.length === 1) {
-            let imageObj = imageGroup[0].fragments.Image.main;
-            let tallImage = imageGroup[0].fragments['ImageType'] && imageGroup[0].fragments['ImageType'].value === 'True';
-            let linkUID = imageGroup[0].fragments.Link.uid;
-            let heading = imageGroup[0].fragments.Heading.value;
-            let subHeading = imageGroup[0].fragments.Subheading && imageGroup[0].fragments.Subheading.value;
-            subHeading = subHeading && subHeading.split(',');
-            let image1Classes = classNames({
-              'animated fadeInUp': true,
-              'tall-image': tallImage
-            })
-            let imageObj2 = imageGroup[0].fragments.Image2.main;
-            let tallImage2 = imageGroup[0].fragments['Image2Type'] && imageGroup[0].fragments['Image2Type'].value === 'True';
-            let image2Classes = classNames({
-              'animated fadeInUp': true,
-              'tall-image': tallImage2
-            });
-            let linkUID2 = imageGroup[0].fragments.Link2.uid;
-            let heading2 = imageGroup[0].fragments.Heading2.value;
-            let subHeading2 = imageGroup[0].fragments.Subheading2 && imageGroup[0].fragments.Subheading2.value;
-            subHeading2 = subHeading2 && subHeading2.split(',');
-            return (<div key={index} className={sliceLabel}>
-              <div className={imageGroupClasses}>
-                <Reveal effect={image1Classes}>
-                  <Link to={`/projects/${linkUID}`}>
+          if (!sliceValue?.length) return;
+          if (sliceValue?.length === 1) {
+            let imageObj = image.Image.url;
+            let linkUid = image.Link.uid;
+            let heading = image.Heading;
+            let subHeading = image.Subheading;
+            subHeading = subHeading.split(',');
+            return (<Fade bottom spy={uid} key={index}>
+              <div className={imageClasses}>
+                <Link href={`/projects/${linkUid}`} as={`/projects/${linkUid}`}>
+                  <a>
                     <div className="projects-image-container__angle"></div>
                     <div className="projects-image-container__content">
                       <h2>
@@ -180,26 +147,73 @@ export default function Project({ project, preview, paths }) {
                         {subHeading && subHeading.map((word, index) => <p key={index}>{word}</p>)}
                       </div>
                     </div>
-                    <Image url={imageObj.url}></Image>
-                  </Link>
-                </Reveal>
-                <Reveal effect={image2Classes}>
-                  <Link to={`/projects/${linkUID2}`}>
-                    <div className="projects-image-container__angle"></div>
-                    <div className="projects-image-container__content">
-                      <h2>
-                        {heading2}
-                      </h2>
-                      <div className="sub-headings">
-                        {subHeading2 && subHeading2.map((word, index) => <p key={index}>{word}</p>)}
-                      </div>
-                    </div>
-                    <Image url={imageObj2.url}></Image>
-                  </Link>
-                </Reveal>
+                    <Image url={imageObj}></Image>
+                  </a>
+                </Link>
               </div>
-            </div>);
+            </Fade>);
           }
+        case 'Image Group':
+          const imageGroup = slice.value[0];
+          const imageGroupClasses = 'projects-image-group-container';
+          let imageObj = imageGroup.Image.url;
+          let tallImage = imageGroup?.ImageType === 'True';
+          let linkUid = imageGroup.Link.uid;
+          let heading = imageGroup.Heading;
+          let subHeading = imageGroup.Subheading;
+          subHeading = subHeading.split(',');
+          let image1Classes = classNames({
+            'tall-image': tallImage
+          })
+          let imageObj2 = imageGroup?.Image2.url;
+          let tallImage2 = imageGroup?.Image2Type === 'True';
+          let image2Classes = classNames({
+            'tall-image': tallImage2
+          });
+          let linkUID2 = imageGroup?.Link2.uid;
+          let heading2 = imageGroup?.Heading2;
+          let subHeading2 = imageGroup?.Subheading2;
+          subHeading2 = subHeading2 && subHeading2.split(',');
+
+          return (
+            <div key={index} className={sliceLabel}>
+              <div className={imageGroupClasses}>
+                <Fade bottom spy={uid}>
+                  <Link href={`/projects/${linkUid}`}>
+                    <a>
+                      <div className="projects-image-container__angle"></div>
+                      <div className="projects-image-container__content">
+                        <h2>
+                          {heading}
+                        </h2>
+                        <div className="sub-headings">
+                          {subHeading && subHeading.map((word, index) => <p key={index}>{word}</p>)}
+                        </div>
+                      </div>
+                      <Image url={imageObj}></Image>
+                    </a>
+                  </Link>
+                </Fade>
+                <Fade bottom spy={uid}>
+                  <Link href={`/projects/${linkUID2}`}>
+                    <a>
+                      <div className="projects-image-container__angle"></div>
+                      <div className="projects-image-container__content">
+                        <h2>
+                          {heading2}
+                        </h2>
+                        <div className="sub-headings">
+                          {subHeading2 && subHeading2.map((word, index) => <p key={index}>{word}</p>)}
+                        </div>
+                      </div>
+                      <Image url={imageObj2}></Image>
+                    </a>
+                  </Link>
+                </Fade>
+              </div>
+            </div>
+          );
+
       }
     })
     : null;
@@ -225,12 +239,5 @@ export async function getStaticProps({ params, preview = false }) {
       preview,
       project: (await getProjectOverview()) ?? null,
     },
-  };
-}
-
-export async function getStaticPaths() {
-  return {
-    paths: ['/projects'],
-    fallback: true,
   };
 }

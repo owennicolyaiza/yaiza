@@ -149,7 +149,7 @@ export default function Project({ project, preview, paths }) {
       switch (slice.slice_type) {
         case 'content':
           const contentClasses = `content-container ${sliceLabel}`;
-          return (<Fade bottom spy={uid} appear={true} data-cheese="true" key={index}>
+          return (<Fade bottom spy={uid} appear={true} key={index}>
             <div className={contentClasses}>
               <div>
                 <RichText render={slice.value} />
