@@ -347,6 +347,12 @@ export default function Project({ project, preview, paths }) {
           <div id="project" className="container">
             <HeroPanel project={project} />
             {pageContentOutput}
+            <PrevNextLinks paths={paths} uid={uid} />
+            {uid === 'about-me' &&
+              <div className="yai-logo-container">
+                <SVGYaizaLogo width={350} height={115} className="yai-logo" />
+              </div>
+            }
           </div>
         )}
     </div>
