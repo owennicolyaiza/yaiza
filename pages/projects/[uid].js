@@ -340,7 +340,7 @@ export default function Project({ project, preview, paths }) {
     : null;
 
   return (
-    <div id="wrapper">
+    <>
       {router.isFallback ? (
         <p>Loading…</p>
       ) : (
@@ -355,7 +355,7 @@ export default function Project({ project, preview, paths }) {
             }
           </div>
         )}
-    </div>
+    </>
   );
 }
 
@@ -364,19 +364,12 @@ export async function getProjectPaths() {
   return allProjects.results?.map(({ uid }) => `/projects/${uid}`) || []
 }
 
-export async function getStaticProps({ params, preview = false }) {
+export async function getServerSideProps({ params, preview = false }) {
   return {
     props: {
       preview,
       project: (await getProject(params?.uid)) ?? null,
       paths: (await getProjectPaths()) ?? null
     },
-  };
-}
-
-export async function getStaticPaths() {
-  return {
-    paths: (await getProjectPaths()) ?? null,
-    fallback: true,
   };
 }

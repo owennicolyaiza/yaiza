@@ -26,13 +26,12 @@ export default function Index({ preview, results }) {
   );
 }
 
-export async function getStaticProps({ preview = false, previewData }) {
+export async function getServerSideProps({ preview = false, previewData }) {
   const { results } = await getAllProjectsForHome(previewData);
   const sortedResults = results.sort(
     (a, b) => a?.data['homepage-slide-order'] - b?.data['homepage-slide-order']
   );
   return {
-    props: { preview, results: sortedResults },
-    unstable_revalidate: 1,
+    props: { preview, results: sortedResults }
   };
 }

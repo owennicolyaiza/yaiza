@@ -1,5 +1,6 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document'
 import Header from '../components/Header/Header'
+import Footer from '../components/Footer'
 
 export default class MyDocument extends Document {
   render() {
@@ -7,7 +8,6 @@ export default class MyDocument extends Document {
       <Html lang="en">
         <Head />
         <body class="light">
-          <Header />
           <Main />
           <NextScript />
         </body>

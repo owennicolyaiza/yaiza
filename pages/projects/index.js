@@ -219,7 +219,7 @@ export default function Project({ project, preview, paths }) {
     : null;
 
   return (
-    <div id="wrapper">
+    <>
       {router.isFallback ? (
         <p>Loading…</p>
       ) : (
@@ -228,12 +228,12 @@ export default function Project({ project, preview, paths }) {
             {pageContentOutput}
           </div>
         )}
-    </div>
+    </>
   );
 }
 
 
-export async function getStaticProps({ params, preview = false }) {
+export async function getServerSideProps({ params, preview = false }) {
   return {
     props: {
       preview,

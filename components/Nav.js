@@ -1,4 +1,3 @@
-// React
 import React from 'react'
 import SVGLogo from './SVG/SVGLogo'
 import NavIcon from './Header/NavIcon'
