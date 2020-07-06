@@ -5,7 +5,7 @@ import classNames from 'classnames'
 const NavIcon = (props) => {
   const menuClasses = classNames({
     cross: true,
-    open: props.menuIsOpen
+    open: props.isMenuOpen
   })
   return (
     <div className="toggle" id="navMenuToggleButton">

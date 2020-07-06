@@ -25,7 +25,7 @@
     padding: 0;
   }
   
-  #wrapper {
+  #__next {
     display: flex;
     flex-direction: column;
     &>*:not(.header):not(#home):not(#footer) {
@@ -110,6 +110,7 @@
   
   #footer {
     background-color: $darkColor;
+    display: block;
     color: #fff;
     text-align: center;
     padding-top: 50px;
@@ -124,6 +125,10 @@
     @extend .light-font;
     p {
       margin: 0;
+    }
+    svg {
+      height: 30px;
+      width: 30px;
     }
   }
   

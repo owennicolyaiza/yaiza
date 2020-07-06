@@ -10,7 +10,7 @@ export default function Index({ preview, results }) {
     setHomepageSlide(index)
   }
   return (
-    <>
+    <div id="home">
       <Head>
         <title>Yaiza&nbsp;| Home</title>
         <meta name="description" content="hello Yaiza" />
@@ -22,7 +22,7 @@ export default function Index({ preview, results }) {
           homepageSlide={homepageSlide}
           setHomepageSlide={handleSetHomepageSlide}
         />
-    </>
+    </div>
   );
 }
 

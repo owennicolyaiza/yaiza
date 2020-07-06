@@ -14,8 +14,6 @@ const Nav = (props) => {
 
   let linkClasses = 'nav-link';
 
-  console.log('====> props.projects:', props.projects)
-
   const navOutput = props.projects && props.projects
     .filter(item => item.uid !== 'about-me')
     .map((item, key) => {

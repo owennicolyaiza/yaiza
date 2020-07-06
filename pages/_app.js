@@ -25,7 +25,6 @@ function MyApp({ Component, pageProps, router }) {
   return (
     <>
       <ProjectProvider>
-        <div id="wrapper">
           <Header isMenuOpen={isMenuOpen} toggleMenu={handleToggleMenu} />
           <Nav
             toggleMenu={handleToggleMenu}
@@ -35,7 +34,6 @@ function MyApp({ Component, pageProps, router }) {
           />
           <Component {...pageProps} />
           {router.pathname !== '/' && <Footer />}
-        </div>
       </ProjectProvider>
     </>
   )
