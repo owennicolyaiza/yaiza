@@ -8,12 +8,12 @@ import classNames from 'classnames'
 const Header = (props) => {
   const headerClasses = classNames({
     header: true,
-    active: props.headerIsActive || props.menuIsOpen
+    active: props.headerIsActive || props.isMenuOpen
   });
   return (
     <div className={headerClasses}>
       <div className="container">
-        <NavLink url="/" className="logo-link" toggleMenu={props.toggleMenu} willToggle={props.menuIsOpen}>
+        <NavLink url="/" className="logo-link" toggleMenu={props.toggleMenu} willToggle={props.isMenuOpen}>
           <SVGLogo width={33} height={34} className="logo" />
         </NavLink>
         {props.pathname === '/' &&

@@ -4,6 +4,7 @@ import NavIcon from './Header/NavIcon'
 import NavLink from './NavLink'
 import classNames from 'classnames'
 import SVGYaizaLogo from './SVG/SVGYaizaLogo'
+import { useProjectContext } from '../context/ProjectsContext'
 
 const Nav = (props) => {
   const navClassNames = classNames({
@@ -13,6 +14,8 @@ const Nav = (props) => {
 
   let linkClasses = 'nav-link';
 
+  console.log('====> props.projects:', props.projects)
+
   const navOutput = props.projects && props.projects
     .filter(item => item.uid !== 'about-me')
     .map((item, key) => {
@@ -20,8 +23,10 @@ const Nav = (props) => {
       if (props.pathname === `/projects/${item.uid}`){
         linkClasses += ' active';
       }
+
+      console.log('====> item?.data?.["homepage-slide-heading"]:', item?.data?.["homepage-slide-heading"])
       return (
-        <li key={key}><a className={linkClasses} href={`/projects/${item.uid}`}>{item.fragments["casestudy.homepage-slide-heading"].value}</a></li>)
+        <li key={key}><a className={linkClasses} href={`/projects/${item.uid}`}>{item?.data?.["homepage-slide-heading"]}</a></li>)
     });
 
 
