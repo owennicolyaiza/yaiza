@@ -5,7 +5,6 @@ import classNames from 'classnames';
 import Head from 'next/head';
 import ErrorPage from 'next/error';
 import { getAllProjects, getProject } from '../../lib/api';
-import { CMS_NAME } from '../../lib/constants';
 import { RichText } from 'prismic-reactjs';
 import ImageSlider from '../../components/ImageSlider';
 import SVGRightChevron from '../../components/SVG/SVGRightChevron';
@@ -224,7 +223,6 @@ export default function Project({ project, preview, paths }) {
           const oneSideTallTopSImage = sliceValue["otherSideTopImage"].url;
           const oneSideTallSImage = sliceValue["otherSideBottomImage"].url;
           const oneSideTallText = sliceValue["otherSideTopText"];
-          console.log('====> oneSideTallText:', oneSideTallText)
 
           switch (sliceLabel) {
             default:

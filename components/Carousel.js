@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import classNames from 'classnames';
 import Flickity from 'react-flickity-component';
@@ -21,10 +21,10 @@ export default function Carousel({
   };
 
   const bgColors = [];
-  const state = {
+  const [state, setState] = useState({
     isLeftArrowVisible: false,
     isRightArrowVisible: true,
-  };
+  })
 
   const applyBgColor = () => {
     if (typeof window !== 'undefined') {
@@ -35,12 +35,13 @@ export default function Carousel({
 
   const checkArrows = () => {
     if (!flkRef.current) return;
-    // setState({
-    //   isLeftArrowVisible: flkRef.current?.flkty?.selectedIndex > 0,
-    //   isRightArrowVisible:
-    //     flkRef.current?.flkty?.selectedIndex <
-    //     flkRef.current?.flkty?.slides.length - 1,
-    // });
+
+    setState({
+      isLeftArrowVisible: flkRef.current?.flkty?.selectedIndex > 0,
+      isRightArrowVisible:
+        flkRef.current?.flkty?.selectedIndex <
+        flkRef.current?.flkty?.slides.length - 1,
+    });
   };
 
   const goNext = () => {
@@ -69,16 +70,16 @@ export default function Carousel({
     };
   }, []);
 
-  // if (typeof window !== 'undefined') return null;
+  if (typeof window !== 'undefined') return null;
 
-  // const leftArrowClasses = classNames({
-  //   'carousel-arrow carousel-arrow--left': true,
-  //   hideme: !state.isLeftArrowVisible,
-  // });
-  // const rightArrowClasses = classNames({
-  //   'carousel-arrow carousel-arrow--right': true,
-  //   hideme: !state.isRightArrowVisible,
-  // });
+  const leftArrowClasses = classNames({
+    'carousel-arrow carousel-arrow--left': true,
+    hideme: !state.isLeftArrowVisible,
+  });
+  const rightArrowClasses = classNames({
+    'carousel-arrow carousel-arrow--right': true,
+    hideme: !state.isRightArrowVisible,
+  });
 
   return (
     <div id="carousel">

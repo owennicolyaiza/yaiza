@@ -1,34 +1,39 @@
 import React from 'react';
 import classNames from 'classnames';
 import { default as Video } from 'react-html5video';
+import { VIDEO_URL } from '../lib/constants';
 
-const HeroPanel = ({ project }) => {
-  const videoFile = project?.data["hero-video-file"]?.value;
-  const heroImage = project?.data["hero-image"]?.url;
+const HeroPanel = ({ project, isVideoPlaying, isMobile }) => {
+  const { data } = project
+  console.log('====> data:', data)
+  const videoFile = data["hero-video-file"];
+  const heroImage = data["hero-image"]?.url;
   const heroImageUrl = `${heroImage}&w=1400`;
+  console.log('====> videoFile:', videoFile)
+  console.log('====> heroImage:', heroImage)
   let heroClasses = classNames({
     'hero': true,
     'fadeIn': true,
     'animated': true,
     'has-image': heroImage !== undefined,
     'video-container': videoFile !== undefined,
-    'active': videoFile !== undefined && this.props.isYoutubeVideoPlaying
+    'active': videoFile !== undefined && isVideoPlaying
   });
   return (videoFile)
     ? (<div
       key={videoFile}
       className={heroClasses}>
-      {this.props.mobile &&
+      {isMobile &&
         <Video
           poster={heroImageUrl}
           id="VideoPlayer"
           onCanPlayThrough={() => {
             // Do stuff 
           }}>
-          <source src={`${this.props.videoURL}${videoFile}.webm`} type="video/webm" />
-          <source src={`${this.props.videoURL}${videoFile}.mp4`} type="video/mp4" />
+          <source src={`${VIDEO_URL}${videoFile}.webm`} type="video/webm" />
+          <source src={`${VIDEO_URL}${videoFile}.mp4`} type="video/mp4" />
         </Video>}
-      {!this.props.mobile &&
+      {!isMobile &&
         <Video
           ref={(player) => { this.videoPlayer = player; }}
           id="VideoPlayer"
@@ -37,8 +42,8 @@ const HeroPanel = ({ project }) => {
           poster={heroImageUrl}
           onCanPlayThrough={() => {
           }}>
-          <source src={`${this.props.videoURL}${videoFile}.webm`} type="video/webm" />
-          <source src={`${this.props.videoURL}${videoFile}.mp4`} type="video/mp4" />
+          <source src={`${VIDEO_URL}${videoFile}.webm`} type="video/webm" />
+          <source src={`${VIDEO_URL}${videoFile}.mp4`} type="video/mp4" />
         </Video>}
 
     </div>)

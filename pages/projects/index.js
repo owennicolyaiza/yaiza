@@ -5,7 +5,6 @@ import { useRouter } from 'next/router';
 import Head from 'next/head';
 import ErrorPage from 'next/error';
 import { getProjectOverview } from '../../lib/api';
-import { CMS_NAME } from '../../lib/constants';
 import { RichText } from 'prismic-reactjs';
 import ImageSlider from '../../components/ImageSlider';
 import SVGRightChevron from '../../components/SVG/SVGRightChevron';
@@ -95,13 +94,51 @@ export default function Project({ project, preview, paths }) {
     return <ErrorPage statusCode={404} />;
   }
 
+  const handleScroll = (event) => {
+    if (!this.videoPlayer) return;
+    let scrollTop = event.srcElement.body.scrollTop;
+    if (scrollTop > this.props.headerHeight) {
+      this.pauseVideo()
+    }
+    else {
+      this.playVideo();
+    }
+  }
+
+  const playVideo = () => {
+    this.videoPlayer.play();
+  }
+
+  const pauseVideo = () => {
+    this.videoPlayer.pause();
+  }
+
   useEffect(() => {
     document.body.classList.add('light')
+    window.addEventListener('scroll', this.handleScroll)
+    setTimeout(() => {
+      if (this.videoPlayer) this.playVideo()
+    }, 4000)
 
     return () => {
       document.body.classList.remove('light')
     }
   }, [])
+
+  if (ExecutionEnvironment.canUseDOM && !this.props.mobile) {
+    window.addEventListener('scroll', this.handleScroll);
+    setTimeout(() => {
+      if (this.videoPlayer) this.playVideo()
+    }, 4000)
+
+    if (this.props.mobile) {
+      setTimeout(() => {
+        const VP = document.getElementById('VideoPlayer')
+        if (VP) VP.setAttribute('controls', 'controls')
+      }, 4000)
+    }
+
+  }
 
   const { data: { contentArea = [] } = {} } = project
 
