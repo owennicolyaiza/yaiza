@@ -146,6 +146,7 @@ export default function Project({ project, preview, paths }) {
     ? contentArea.map((slice, index) => {
       const sliceLabel = slice.slice_label || '';
       const sliceValue = slice.value
+      console.log('====> sliceValue:', sliceValue)
       switch (slice.slice_type) {
         case 'Content':
           const contentClasses = `content-container ${sliceLabel}`;
@@ -263,6 +264,7 @@ export default function Project({ project, preview, paths }) {
           <div id="project" className="container">
             <HeroPanel project={project} />
             {pageContentOutput}
+            <h1 style={{color: 'white'}}>HELLO WORLD</h1>
           </div>
         )}
     </>
@@ -270,7 +272,7 @@ export default function Project({ project, preview, paths }) {
 }
 
 
-export async function getServerSideProps({ params, preview = false }) {
+export async function getStaticProps({ preview = false }) {
   return {
     props: {
       preview,

@@ -16,22 +16,23 @@ export default function Index({ preview, results }) {
         <meta name="description" content="hello Yaiza" />
         <meta name="keywords" content="some words" />
       </Head>
-      
-        <Carousel
-          homepageContent={results}
-          homepageSlide={homepageSlide}
-          setHomepageSlide={handleSetHomepageSlide}
-        />
+
+      <Carousel
+        homepageContent={results}
+        homepageSlide={homepageSlide}
+        setHomepageSlide={handleSetHomepageSlide}
+      />
     </div>
   );
 }
 
-export async function getServerSideProps({ preview = false, previewData }) {
-  const { results } = await getAllProjectsForHome(previewData);
+export async function getStaticProps({ preview = false }) {
+  const { results } = await getAllProjectsForHome();
   const sortedResults = results.sort(
     (a, b) => a?.data['homepage-slide-order'] - b?.data['homepage-slide-order']
   );
   return {
-    props: { preview, results: sortedResults }
+    props: { preview, results: sortedResults },
+    unstable_revalidate: 1,
   };
 }

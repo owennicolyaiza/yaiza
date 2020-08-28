@@ -70,8 +70,6 @@ export default function Carousel({
     };
   }, []);
 
-  if (typeof window !== 'undefined') return null;
-
   const leftArrowClasses = classNames({
     'carousel-arrow carousel-arrow--left': true,
     hideme: !state.isLeftArrowVisible,

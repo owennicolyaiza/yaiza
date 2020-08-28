@@ -22,7 +22,6 @@ const Nav = (props) => {
         linkClasses += ' active';
       }
 
-      console.log('====> item?.data?.["homepage-slide-heading"]:', item?.data?.["homepage-slide-heading"])
       return (
         <li key={key}><a className={linkClasses} href={`/projects/${item.uid}`}>{item?.data?.["homepage-slide-heading"]}</a></li>)
     });
