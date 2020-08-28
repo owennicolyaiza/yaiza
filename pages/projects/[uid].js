@@ -362,7 +362,7 @@ export async function getProjectPaths() {
   return allProjects.results?.map(({ uid }) => `/projects/${uid}`) || []
 }
 
-export async function getServerSideProps({ params, preview = false }) {
+export async function getStaticProps({ params, preview = false }) {
   return {
     props: {
       preview,

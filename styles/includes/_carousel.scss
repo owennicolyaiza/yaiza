@@ -3,6 +3,7 @@
   height: 65vh;
   margin: 0 10vw;
   color: #fff;
+
   &:active,
   &:focus,
   &:visited,
@@ -10,23 +11,28 @@
     color: #fff;
     text-decoration: none;
   }
+
   &::after {
     content: none;
   }
+
   &[data-effect="Black and White"] {
     .carousel-cell__content:not(.carousel-cell__content__secondary) {
       transition: transform 10s .5s;
     }
+
     &:hover {
       .carousel-cell__content__secondary {
         opacity: 0;
         visibility: hidden;
       }
+
       .carousel-cell__content:not(.carousel-cell__content__secondary) {
         transform: scale3d(1.1, 1.1, 1);
       }
     }
   }
+
   &[data-effect="Fade Overlay"] {
     .carousel-cell__container {
       &::after {
@@ -42,9 +48,11 @@
         transition: opacity ($transitionTime * 4) ease-in-out, visibility ($transitionTime * 4) ease-in-out;
       }
     }
+
     .carousel-cell__content {
       transition: transform 10s .5s;
     }
+
     &:hover {
       .carousel-cell__container {
         &::after {
@@ -52,16 +60,19 @@
           visibility: hidden;
         }
       }
+
       .carousel-cell__content {
         transform: scale3d(1.1, 1.1, 1);
       }
     }
   }
+
   &__container {
     position: relative;
     width: 100%;
     height: 100%;
     overflow: hidden;
+
     &::before {
       content: '';
       background: rgba(0, 0, 0, 0.4);
@@ -76,6 +87,7 @@
       transition: transform .75s ease-out .25s;
     }
   }
+
   &__content {
     background-position: center center;
     background-size: cover;
@@ -85,6 +97,7 @@
     left: 0;
     right: 0;
     bottom: 0;
+
     &__secondary {
       opacity: 1;
       visibility: visible;
@@ -92,6 +105,7 @@
       transition: opacity ($transitionTime * 4) ease-in-out, visibility ($transitionTime * 4) ease-in-out;
     }
   }
+
   &__text {
     position: absolute;
     top: 50%;
@@ -99,6 +113,7 @@
     width: 100%;
     z-index: 4;
     margin-top: -36px;
+
     h2 {
       position: relative;
       margin-top: 0;
@@ -110,6 +125,7 @@
       transition: transform .5s ease-out, visibility .5s ease-out, opacity .5s ease-out;
       color: #fff;
       font-size: 19px;
+
       &::after {
         content: attr(data-subtext);
         position: absolute;
@@ -126,6 +142,7 @@
       }
     }
   }
+
   &.is-selected {
     .carousel-cell__container {
       &::before {
@@ -133,6 +150,7 @@
         backface-visibility: hidden;
       }
     }
+
     .carousel-cell__text {
       h2 {
         transform: translate3d(0, 0, 0);
@@ -140,6 +158,7 @@
         opacity: 1;
         visibility: visible;
         transition-delay: .45s;
+
         &::after {
           transform: translate3d(0, 0, 0);
           backface-visibility: hidden;
@@ -154,43 +173,48 @@
 
 .arrow-container {
   width: 80px;
-  margin: 20px auto 0;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
+  flex: 1;
+  text-align: center;
+
   .arrow {
     position: relative;
     display: inline-block;
     width: 35px;
   }
+
   .carousel-arrow {
     display: inline-block;
     cursor: pointer;
     width: 40px;
-    position: absolute;
     opacity: 1;
     visibility: visible;
     transform: translateX(0);
     transition: transform .35s ease-out, visibility .35s ease-out, opacity .35s ease-out;
+
     &--right {
       left: 2px;
     }
+
     &.hideme {
       transform: translateX(-5px);
       opacity: 0;
       visibility: hidden;
     }
+
     &--right.hideme {
       transform: translateX(5px);
     }
+
     svg {
       display: inline-block;
       max-width: 100%;
     }
+
     .arrow-part {
       fill: #7a7979;
       transition: fill $transitionTime $transitionEase;
     }
+
     &:hover {
       .arrow-part {
         fill: #fff;
@@ -200,18 +224,15 @@
 }
 
 .all-link-container {
-  position: absolute;
-  width: 75vw;
-  left: 50%;
-  transform: translateX(-50%);
   text-align: right;
-  margin: 20px auto 0;
   text-transform: uppercase;
   font-size: 1.1rem;
+
   a {
     color: #cecece;
     font-weight: normal;
     transition: color $transitionTime $transitionEase;
+
     &:hover {
       color: #fff;
     }
@@ -222,6 +243,7 @@
   .carousel-cell {
     height: 70vh;
     margin: 0 10vw;
+
     &__container {
       &::before {
         width: 40%;
@@ -230,16 +252,19 @@
         left: -20%;
       }
     }
+
     &__text {
       top: 50%;
       left: 0;
       width: 100%;
       margin-top: -36px;
+
       h2 {
         margin-top: 0;
         margin-left: -20px;
         transform: translate3d(-10%, 0, 0);
         font-size: 25px;
+
         &::after {
           top: 40px;
           font-size: 1.4rem;
@@ -249,15 +274,18 @@
         }
       }
     }
+
     &.is-selected {
       .carousel-cell__container {
         &::before {
           transform: skew(-26deg) translate3d(0, 0, 0);
         }
       }
+
       .carousel-cell__text {
         h2 {
           transform: translate3d(0, 0, 0);
+
           &::after {
             transform: translate3d(0, 0, 0);
           }
@@ -265,4 +293,25 @@
       }
     }
   }
+}
+
+.socials {
+  height: 25px;
+  svg {
+    width: 25px;
+    margin-right: 10px;
+
+    path {
+      fill: #b3b3b3;
+    }
+  }
+}
+
+
+.carousel-footer {
+  display: flex;
+  align-content: space-between; 
+  width: 75vw;
+  margin: 10px auto;
+  align-items: center;
 }
