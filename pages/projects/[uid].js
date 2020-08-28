@@ -371,3 +371,10 @@ export async function getServerSideProps({ params, preview = false }) {
     },
   };
 }
+
+export async function getStaticPaths() {
+  return {
+    paths: (await getProjectPaths()) ?? null,
+    fallback: true,
+  };
+}
