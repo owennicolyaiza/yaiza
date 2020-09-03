@@ -87,7 +87,6 @@ export default function Project({ project = { uid: '1234', data: {} }, preview, 
     ? contentArea.map((slice, index) => {
       const sliceLabel = slice.slice_label || '';
       const sliceValue = slice.value
-      console.log('====> sliceValue:', sliceValue)
       switch (slice.slice_type) {
         case 'Content':
           const contentClasses = `content-container ${sliceLabel}`;
