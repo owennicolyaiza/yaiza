@@ -236,7 +236,11 @@ export default function Project({ project, preview, paths }) {
                       </div>
                       <div className="others half-width">
                         {!oneSideTallTopSImage && oneSideTallText &&
-                          <div className="content" dangerouslySetInnerHTML={{ __html: oneSideTallText }} />
+                          <div className="content">
+                            <div>
+                              <RichText render={oneSideTallText} />
+                            </div>
+                          </div>
                         }
                         {oneSideTallTopSImage &&
                           <div>
@@ -259,7 +263,11 @@ export default function Project({ project, preview, paths }) {
                     <div className="one-side-tall">
                       <div className="others half-width">
                         {!oneSideTallTopSImage && oneSideTallText &&
-                          <div className="content" dangerouslySetInnerHTML={{ __html: oneSideTallText }} />
+                          <div className="content">
+                            <div>
+                              <RichText render={oneSideTallText} />
+                            </div>
+                          </div>
                         }
                         {oneSideTallTopSImage &&
                           <div>
