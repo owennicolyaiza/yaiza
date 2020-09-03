@@ -221,10 +221,3 @@ export async function getStaticProps({ preview = false }) {
   };
 }
 
-export async function getStaticPaths() {
-  return {
-    paths: ['/projects'],
-    fallback: true,
-  };
-}
-
