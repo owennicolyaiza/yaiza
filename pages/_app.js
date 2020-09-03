@@ -8,7 +8,8 @@ import { getAllProjects } from '../lib/api'
 
 function MyApp({ Component, pageProps, router }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [projects, setProjects] = useState([])
+  const [projects, setProjects] = useState([]);
+  const [headerHeight] = useState(70);
   const handleToggleMenu = e => {
     e?.preventDefault();
     setIsMenuOpen(!isMenuOpen);
@@ -25,14 +26,14 @@ function MyApp({ Component, pageProps, router }) {
   return (
     <>
       <ProjectProvider>
-          <Header isMenuOpen={isMenuOpen} toggleMenu={handleToggleMenu} />
+          <Header isMenuOpen={isMenuOpen} toggleMenu={handleToggleMenu} headerHeight={headerHeight} />
           <Nav
             toggleMenu={handleToggleMenu}
             menuIsOpen={isMenuOpen}
             projects={projects}
             pathname={router.pathname}
           />
-          <Component {...pageProps} />
+          <Component {...pageProps} headerHeight={headerHeight} />
           {router.pathname !== '/' && <Footer />}
       </ProjectProvider>
     </>

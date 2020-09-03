@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import classNames from 'classnames';
 import Fade from 'react-reveal/Fade';
 import { useRouter } from 'next/router';
@@ -12,7 +12,6 @@ import SVGLeftChevron from '../../components/SVG/SVGLeftChevron';
 import SVGYaizaLogo from '../../components/SVG/SVGYaizaLogo'
 
 // // External modules
-// import ExecutionEnvironment from 'exenv';
 import { Play, Mute, Seek } from 'react-html5video';
 import Link from 'next/link';
 import HeroPanel from '../../components/HeroPanel';
@@ -20,118 +19,60 @@ import HeroPanel from '../../components/HeroPanel';
 
 const Image = (props) => (<div className={props.classes}><img src={props.url} className="img-responsive" /></div>);
 
-class ProjectContainer extends React.Component {
-  constructor(props) {
-    super(props);
-    this.videoPlayer = null;
-    this.handleScroll = this.handleScroll.bind(this);
-    this.playVideo = this.playVideo.bind(this);
-    this.pauseVideo = this.pauseVideo.bind(this);
-  }
 
-  componentDidMount() {
-    if (ExecutionEnvironment.canUseDOM && !this.props.mobile) {
-      window.addEventListener('scroll', this.handleScroll);
-      setTimeout(() => {
-        if (this.videoPlayer) this.playVideo()
-      }, 4000)
-
-    }
-    if (ExecutionEnvironment.canUseDOM) {
-      document.body.classList.add('light')
-      if (this.props.mobile) {
-        setTimeout(() => {
-          const VP = document.getElementById('VideoPlayer')
-          if (VP) VP.setAttribute('controls', 'controls')
-        }, 4000)
-      }
-    }
-  }
-
-  componentWillUnmount() {
-    if (ExecutionEnvironment.canUseDOM && !this.props.mobile) {
-      window.removeEventListener('scroll', this.handleScroll);
-    }
-    if (ExecutionEnvironment.canUseDOM) {
-      document.body.classList.remove('light')
-    }
-  }
-
-  handleScroll(event) {
-    if (!this.videoPlayer) return;
-    let scrollTop = event.srcElement.body.scrollTop;
-    if (scrollTop > this.props.headerHeight) {
-      this.pauseVideo()
-    }
-    else {
-      this.playVideo();
-    }
-  }
-
-  playVideo() {
-    this.videoPlayer.play();
-  }
-
-  pauseVideo() {
-    this.videoPlayer.pause();
-  }
-
-  render() {
-
-
-  }
-}
-
-
-export default function Project({ project, preview, paths }) {
+export default function Project({ project = { uid: '1234', data: {} }, preview, paths, mobile, headerHeight }) {
   const router = useRouter();
 
   if (!project) return null;
 
   const { uid } = project;
 
+  const videoRef = useRef();
+
   if ((!router.isFallback && !uid) || Object.keys(project).length === 0) {
     return <ErrorPage statusCode={404} />;
   }
 
-  const handleScroll = (event) => {
-    if (!this.videoPlayer) return;
-    let scrollTop = event.srcElement.body.scrollTop;
-    if (scrollTop > this.props.headerHeight) {
-      this.pauseVideo()
-    }
-    else {
-      this.playVideo();
-    }
-  }
-
   const playVideo = () => {
-    this.videoPlayer.play();
+    videoRef?.current?.play();
   }
 
   const pauseVideo = () => {
-    this.videoPlayer.pause();
+    videoRef?.current?.pause();
   }
 
+  const handleScroll = (event) => {
+    if (!videoRef) return;
+    let scrollTop = event.srcElement.body.scrollTop;
+    if (scrollTop > headerHeight) {
+      pauseVideo()
+    }
+    else {
+      playVideo();
+    }
+  }
+
+
   useEffect(() => {
-    document.body.classList.add('light')
-    window.addEventListener('scroll', this.handleScroll)
+    document.body.classList.add('light');
+    window.addEventListener('scroll', handleScroll);
     setTimeout(() => {
-      if (this.videoPlayer) this.playVideo()
+      if (videoRef) playVideo();
     }, 4000)
 
     return () => {
-      document.body.classList.remove('light')
+      document.body.classList.remove('light');
+      window.removeEventListener('scroll', handleScroll);
     }
   }, [])
 
-  if (ExecutionEnvironment.canUseDOM && !this.props.mobile) {
-    window.addEventListener('scroll', this.handleScroll);
+  if (typeof window !== 'undefined' && !mobile) {
+    window.addEventListener('scroll', handleScroll);
     setTimeout(() => {
-      if (this.videoPlayer) this.playVideo()
+      if (videoRef) playVideo()
     }, 4000)
 
-    if (this.props.mobile) {
+    if (mobile) {
       setTimeout(() => {
         const VP = document.getElementById('VideoPlayer')
         if (VP) VP.setAttribute('controls', 'controls')
@@ -140,7 +81,7 @@ export default function Project({ project, preview, paths }) {
 
   }
 
-  const { data: { contentArea = [] } = {} } = project
+  const { data: { contentArea = [] } = {} } = project ?? {}
 
   const pageContentOutput = contentArea.length
     ? contentArea.map((slice, index) => {
@@ -262,9 +203,8 @@ export default function Project({ project, preview, paths }) {
         <p>Loading…</p>
       ) : (
           <div id="project" className="container">
-            <HeroPanel project={project} />
+            <HeroPanel project={project} ref={videoRef} />
             {pageContentOutput}
-            <h1 style={{color: 'white'}}>HELLO WORLD</h1>
           </div>
         )}
     </>
@@ -276,7 +216,15 @@ export async function getStaticProps({ preview = false }) {
   return {
     props: {
       preview,
-      project: (await getProjectOverview()) ?? null,
+      project: (await getProjectOverview()) ?? {},
     },
   };
 }
+
+export async function getStaticPaths() {
+  return {
+    paths: ['/projects'],
+    fallback: true,
+  };
+}
+

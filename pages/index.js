@@ -36,3 +36,11 @@ export async function getStaticProps({ preview = false }) {
     unstable_revalidate: 1,
   };
 }
+
+export async function getStaticPaths() {
+  return {
+    paths: ['/projects'],
+    fallback: true,
+  };
+}
+

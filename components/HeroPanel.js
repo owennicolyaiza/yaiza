@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import classNames from 'classnames';
 import { default as Video } from 'react-html5video';
 import { VIDEO_URL } from '../lib/constants';
 
-const HeroPanel = ({ project, isVideoPlaying, isMobile }) => {
-  const { data } = project
+const HeroPanel = forwardRef(({ project, isVideoPlaying, isMobile }, ref) => {
+  const { data = {} } = project;
   console.log('====> data:', data)
   const videoFile = data["hero-video-file"];
   const heroImage = data["hero-image"]?.url;
@@ -35,7 +35,7 @@ const HeroPanel = ({ project, isVideoPlaying, isMobile }) => {
         </Video>}
       {!isMobile &&
         <Video
-          ref={(player) => { this.videoPlayer = player; }}
+          ref={ref}
           id="VideoPlayer"
           autoplay
           loop
@@ -51,6 +51,6 @@ const HeroPanel = ({ project, isVideoPlaying, isMobile }) => {
       key={heroClasses}
       className={heroClasses}
       style={{ 'backgroundImage': `url(${heroImageUrl})` }} />);
-};
+});
 
 export default HeroPanel
