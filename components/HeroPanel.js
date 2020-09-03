@@ -5,12 +5,9 @@ import { VIDEO_URL } from '../lib/constants';
 
 const HeroPanel = forwardRef(({ project, isVideoPlaying, isMobile }, ref) => {
   const { data = {} } = project;
-  console.log('====> data:', data)
   const videoFile = data["hero-video-file"];
   const heroImage = data["hero-image"]?.url;
   const heroImageUrl = `${heroImage}&w=1400`;
-  console.log('====> videoFile:', videoFile)
-  console.log('====> heroImage:', heroImage)
   let heroClasses = classNames({
     'hero': true,
     'fadeIn': true,
