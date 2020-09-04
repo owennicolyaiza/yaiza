@@ -83,6 +83,7 @@
         opacity: 0;
         transition: opacity .2s ease-out, transform .2s ease-out;
         .nav-link {
+          cursor: pointer;
           &.active {
             position: relative;
             &::before {

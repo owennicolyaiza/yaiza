@@ -95,13 +95,11 @@ export default function Carousel({
             <Link
               as={`/projects/${content.uid}`}
               href="/projects/[uid]"
-              onClick={() => {
-                setHomepageSlide(key);
-              }}
               key={content.uid}
-              data-effect={effect}
             >
-              <a className="carousel-cell">
+              <a className="carousel-cell" data-effect={effect} onClick={() => {
+                setHomepageSlide(key);
+              }}>
                 <div className="carousel-cell__container">
                   <div
                     className="carousel-cell__content"
