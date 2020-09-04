@@ -8,7 +8,7 @@ import classNames from 'classnames'
 const Header = (props) => {
   const headerClasses = classNames({
     header: true,
-    active: props.headerIsActive || props.isMenuOpen
+    active: props.isHeaderActive || props.isMenuOpen
   });
   return (
     <div className={headerClasses}>

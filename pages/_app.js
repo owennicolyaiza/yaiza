@@ -10,9 +10,17 @@ function MyApp({ Component, pageProps, router }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [projects, setProjects] = useState([]);
   const [headerHeight] = useState(70);
+  const [isHeaderActive, setIsHeaderActive] = useState(false);
   const handleToggleMenu = e => {
     e?.preventDefault();
     setIsMenuOpen(!isMenuOpen);
+  }
+
+  const handleScroll = () => {
+    const scrollTop = window.pageYOffset;
+    return scrollTop > headerHeight
+      ? setIsHeaderActive(true)
+      : setIsHeaderActive(false);
   }
 
   useEffect(() => {
@@ -20,21 +28,25 @@ function MyApp({ Component, pageProps, router }) {
       const allProjects = await getAllProjects();
       setProjects(allProjects?.results);
     }
-
+    window.addEventListener('scroll', handleScroll);
     getProjects();
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    }
   }, [])
   return (
     <>
       <ProjectProvider>
-          <Header isMenuOpen={isMenuOpen} toggleMenu={handleToggleMenu} headerHeight={headerHeight} />
-          <Nav
-            toggleMenu={handleToggleMenu}
-            menuIsOpen={isMenuOpen}
-            projects={projects}
-            pathname={router.pathname}
-          />
-          <Component {...pageProps} headerHeight={headerHeight} />
-          {router.pathname !== '/' && <Footer />}
+        <Header isMenuOpen={isMenuOpen} toggleMenu={handleToggleMenu} headerHeight={headerHeight} isHeaderActive={isHeaderActive} />
+        <Nav
+          toggleMenu={handleToggleMenu}
+          menuIsOpen={isMenuOpen}
+          projects={projects}
+          pathname={router.pathname}
+        />
+        <Component {...pageProps} headerHeight={headerHeight} />
+        {router.pathname !== '/' && <Footer />}
       </ProjectProvider>
     </>
   )
