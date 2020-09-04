@@ -29,6 +29,11 @@ export default function Project({ project = { uid: '1234', data: {} }, preview, 
 
   const videoRef = useRef();
 
+  const { data = {} } = project;
+  const { contentArea = [] } = data;
+  const metaDescription =  data['meta-description']?.[0]?.text;
+  const metaKeywords = data['meta-keywords']?.[0]?.text;
+
   if ((!router.isFallback && !uid) || Object.keys(project).length === 0) {
     return <ErrorPage statusCode={404} />;
   }
@@ -80,8 +85,6 @@ export default function Project({ project = { uid: '1234', data: {} }, preview, 
     }
 
   }
-
-  const { data: { contentArea = [] } = {} } = project ?? {}
 
   const pageContentOutput = contentArea.length
     ? contentArea.map((slice, index) => {
@@ -202,6 +205,11 @@ export default function Project({ project = { uid: '1234', data: {} }, preview, 
         <p>Loading…</p>
       ) : (
           <div id="project" className="container">
+            <Head>
+              <title>Yaiza | Projects</title>
+              <meta name="description" content={metaDescription} />
+              <meta name="keywords" content={metaKeywords} />
+            </Head>
             <HeroPanel project={project} ref={videoRef} />
             {pageContentOutput}
           </div>

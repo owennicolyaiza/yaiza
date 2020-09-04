@@ -56,69 +56,6 @@ const PrevNextLinks = ({ paths, uid }) => {
   );
 }
 
-class ProjectContainer extends React.Component {
-  constructor(props) {
-    super(props);
-    this.videoPlayer = null;
-    this.handleScroll = this.handleScroll.bind(this);
-    this.playVideo = this.playVideo.bind(this);
-    this.pauseVideo = this.pauseVideo.bind(this);
-  }
-
-  componentDidMount() {
-    if (ExecutionEnvironment.canUseDOM && !this.props.mobile) {
-      window.addEventListener('scroll', this.handleScroll);
-      setTimeout(() => {
-        if (this.videoPlayer) this.playVideo()
-      }, 4000)
-
-    }
-    if (ExecutionEnvironment.canUseDOM) {
-      document.body.classList.add('light')
-      if (this.props.mobile) {
-        setTimeout(() => {
-          const VP = document.getElementById('VideoPlayer')
-          if (VP) VP.setAttribute('controls', 'controls')
-        }, 4000)
-      }
-    }
-  }
-
-  componentWillUnmount() {
-    if (ExecutionEnvironment.canUseDOM && !this.props.mobile) {
-      window.removeEventListener('scroll', this.handleScroll);
-    }
-    if (ExecutionEnvironment.canUseDOM) {
-      document.body.classList.remove('light')
-    }
-  }
-
-  handleScroll(event) {
-    if (!this.videoPlayer) return;
-    let scrollTop = event.srcElement.body.scrollTop;
-    if (scrollTop > this.props.headerHeight) {
-      this.pauseVideo()
-    }
-    else {
-      this.playVideo();
-    }
-  }
-
-  playVideo() {
-    this.videoPlayer.play();
-  }
-
-  pauseVideo() {
-    this.videoPlayer.pause();
-  }
-
-  render() {
-
-
-  }
-}
-
-
 export default function Project({ project, preview, paths }) {
   const router = useRouter();
 
@@ -138,8 +75,14 @@ export default function Project({ project, preview, paths }) {
     }
   }, [])
 
-  const { data: { contentArea = [] } = {} } = project
-  let slicesArray = [];
+  const { data = {} } = project;
+  const { contentArea = [] } = data;
+
+  const metaDescription =  data['meta-description']?.[0]?.text;
+  const metaKeywords = data['meta-keywords']?.[0]?.text;
+  const title = data
+    ? ` | ${data['homepage-slide-heading']}`
+    : '';
 
   const pageContentOutput = contentArea.length
     ? contentArea.map((slice, index) => {
@@ -351,6 +294,11 @@ export default function Project({ project, preview, paths }) {
         <p>Loading…</p>
       ) : (
           <div id="project" className="container">
+            <Head>
+              <title>Yaiza{title}</title>
+              <meta name="description" content={metaDescription} />
+              <meta name="keywords" content={metaKeywords} />
+            </Head>
             <HeroPanel project={project} />
             {pageContentOutput}
             <PrevNextLinks paths={paths} uid={uid} />
