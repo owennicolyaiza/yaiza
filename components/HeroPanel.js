@@ -1,9 +1,9 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useEffect } from 'react';
 import classNames from 'classnames';
-import { default as Video } from 'react-html5video';
+import videoConnect from '../components/video';
 import { VIDEO_URL } from '../lib/constants';
 
-const HeroPanel = forwardRef(({ project, isVideoPlaying, isMobile }, ref) => {
+const HeroPanel = forwardRef(({ video, videoEl, project, isVideoPlaying, isMobile, playVideo, pauseVideo }, ref) => {
   const { data = {} } = project;
   const videoFile = data["hero-video-file"];
   const heroImage = data["hero-image"]?.url;
@@ -16,12 +16,13 @@ const HeroPanel = forwardRef(({ project, isVideoPlaying, isMobile }, ref) => {
     'video-container': videoFile !== undefined,
     'active': videoFile !== undefined && isVideoPlaying
   });
+
   return (videoFile)
     ? (<div
       key={videoFile}
       className={heroClasses}>
       {isMobile &&
-        <Video
+        <video
           poster={heroImageUrl}
           id="VideoPlayer"
           onCanPlayThrough={() => {
@@ -29,19 +30,21 @@ const HeroPanel = forwardRef(({ project, isVideoPlaying, isMobile }, ref) => {
           }}>
           <source src={`${VIDEO_URL}${videoFile}.webm`} type="video/webm" />
           <source src={`${VIDEO_URL}${videoFile}.mp4`} type="video/mp4" />
-        </Video>}
+        </video>}
       {!isMobile &&
-        <Video
+        <video
           ref={ref}
           id="VideoPlayer"
-          autoplay
+          autoPlay
           loop
           poster={heroImageUrl}
           onCanPlayThrough={() => {
           }}>
           <source src={`${VIDEO_URL}${videoFile}.webm`} type="video/webm" />
           <source src={`${VIDEO_URL}${videoFile}.mp4`} type="video/mp4" />
-        </Video>}
+        </video>
+      }
+
 
     </div>)
     : (<div
@@ -50,4 +53,4 @@ const HeroPanel = forwardRef(({ project, isVideoPlaying, isMobile }, ref) => {
       style={{ 'backgroundImage': `url(${heroImageUrl})` }} />);
 });
 
-export default HeroPanel
+export default videoConnect(HeroPanel)

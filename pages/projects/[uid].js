@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Fade from 'react-reveal/Fade';
 import { useRouter } from 'next/router';
 import classNames from 'classnames';
@@ -11,11 +11,9 @@ import SVGRightChevron from '../../components/SVG/SVGRightChevron';
 import SVGLeftChevron from '../../components/SVG/SVGLeftChevron';
 import SVGYaizaLogo from '../../components/SVG/SVGYaizaLogo'
 
-// // External modules
-// import ExecutionEnvironment from 'exenv';
-import { default as Video, Play, Mute, Seek } from 'react-html5video';
 import Link from 'next/link';
 import HeroPanel from '../../components/HeroPanel';
+import video from '../../components/video';
 
 
 const Image = (props) => (<div className={props.classes}><img src={props.url} className="img-responsive" /></div>);
@@ -56,29 +54,45 @@ const PrevNextLinks = ({ paths, uid }) => {
   );
 }
 
-export default function Project({ project, preview, paths }) {
+export default function Project({ project, preview, paths, isMobile, headerHeight }) {
   const router = useRouter();
 
   if (!project) return null;
 
   const { uid } = project;
 
+  const videoRef = useRef();
+
   if ((!router.isFallback && !uid) || Object.keys(project).length === 0) {
     return <ErrorPage statusCode={404} />;
   }
 
+
+  const playVideo = (videoEl) => {
+    videoEl.play();
+  }
+ 
+  const pauseVideo = (videoEl) => {
+    videoEl.play();
+  }
+
+
+
   useEffect(() => {
-    document.body.classList.add('light')
+    document.body.classList.add('light');
 
     return () => {
-      document.body.classList.remove('light')
+      document.body.classList.remove('light');
     }
+
   }, [])
+
+
 
   const { data = {} } = project;
   const { contentArea = [] } = data;
 
-  const metaDescription =  data['meta-description']?.[0]?.text;
+  const metaDescription = data['meta-description']?.[0]?.text;
   const metaKeywords = data['meta-keywords']?.[0]?.text;
   const title = data
     ? ` | ${data['homepage-slide-heading']}`
@@ -299,7 +313,7 @@ export default function Project({ project, preview, paths }) {
               <meta name="description" content={metaDescription} />
               <meta name="keywords" content={metaKeywords} />
             </Head>
-            <HeroPanel project={project} />
+            <HeroPanel project={project} isMobile={isMobile} ref={videoRef} playVideo={playVideo} pauseVideo={pauseVideo} />
             {pageContentOutput}
             <PrevNextLinks paths={paths} uid={uid} />
             {uid === 'about-me' &&

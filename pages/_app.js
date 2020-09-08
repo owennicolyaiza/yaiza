@@ -16,6 +16,8 @@ function MyApp({ Component, pageProps, router }) {
     setIsMenuOpen(!isMenuOpen);
   }
 
+  const [isMobile, setIsMobile] = useState(false);
+
   const handleScroll = () => {
     const scrollTop = window.pageYOffset;
     return scrollTop > headerHeight
@@ -31,6 +33,10 @@ function MyApp({ Component, pageProps, router }) {
     window.addEventListener('scroll', handleScroll);
     getProjects();
 
+    if (typeof window !== 'undefined') {
+      setIsMobile(matchMedia('(max-width: 767px)').matches);
+    }
+
     return () => {
       window.removeEventListener('scroll', handleScroll);
     }
@@ -45,7 +51,7 @@ function MyApp({ Component, pageProps, router }) {
           projects={projects}
           pathname={router.pathname}
         />
-        <Component {...pageProps} headerHeight={headerHeight} />
+        <Component {...pageProps} headerHeight={headerHeight} isMobile={isMobile} />
         {router.pathname !== '/' && <Footer />}
       </ProjectProvider>
     </>

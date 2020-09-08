@@ -12,7 +12,7 @@ import SVGLeftChevron from '../../components/SVG/SVGLeftChevron';
 import SVGYaizaLogo from '../../components/SVG/SVGYaizaLogo'
 
 // // External modules
-import { Play, Mute, Seek } from 'react-html5video';
+import { Play, Mute, Seek } from '../../components/video';
 import Link from 'next/link';
 import HeroPanel from '../../components/HeroPanel';
 
@@ -20,7 +20,7 @@ import HeroPanel from '../../components/HeroPanel';
 const Image = (props) => (<div className={props.classes}><img src={props.url} className="img-responsive" /></div>);
 
 
-export default function Project({ project = { uid: '1234', data: {} }, preview, paths, mobile, headerHeight }) {
+export default function Project({ project = { uid: '1234', data: {} }, preview, paths, isMobile, headerHeight }) {
   const router = useRouter();
 
   if (!project) return null;
@@ -31,7 +31,7 @@ export default function Project({ project = { uid: '1234', data: {} }, preview, 
 
   const { data = {} } = project;
   const { contentArea = [] } = data;
-  const metaDescription =  data['meta-description']?.[0]?.text;
+  const metaDescription = data['meta-description']?.[0]?.text;
   const metaKeywords = data['meta-keywords']?.[0]?.text;
 
   if ((!router.isFallback && !uid) || Object.keys(project).length === 0) {
@@ -39,6 +39,7 @@ export default function Project({ project = { uid: '1234', data: {} }, preview, 
   }
 
   const playVideo = () => {
+    console.log('====> videoRef:', videoRef)
     videoRef?.current?.play();
   }
 
@@ -71,13 +72,13 @@ export default function Project({ project = { uid: '1234', data: {} }, preview, 
     }
   }, [])
 
-  if (typeof window !== 'undefined' && !mobile) {
+  if (typeof window !== 'undefined' && !isMobile) {
     window.addEventListener('scroll', handleScroll);
     setTimeout(() => {
       if (videoRef) playVideo()
     }, 4000)
 
-    if (mobile) {
+    if (isMobile) {
       setTimeout(() => {
         const VP = document.getElementById('VideoPlayer')
         if (VP) VP.setAttribute('controls', 'controls')
@@ -210,7 +211,7 @@ export default function Project({ project = { uid: '1234', data: {} }, preview, 
               <meta name="description" content={metaDescription} />
               <meta name="keywords" content={metaKeywords} />
             </Head>
-            <HeroPanel project={project} ref={videoRef} />
+            <HeroPanel project={project} isMobile={isMobile} ref={videoRef} />
             {pageContentOutput}
           </div>
         )}
