@@ -57,6 +57,8 @@ const PrevNextLinks = ({ paths, uid }) => {
 export default function Project({ project, preview, paths, isMobile, headerHeight }) {
   const router = useRouter();
 
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+
   if (!project) return null;
 
   const { uid } = project;
@@ -67,26 +69,33 @@ export default function Project({ project, preview, paths, isMobile, headerHeigh
     return <ErrorPage statusCode={404} />;
   }
 
-
-  const playVideo = (videoEl) => {
-    videoEl.play();
+  const playVideo = () => {
+    videoRef.current.play();
+    setIsVideoPlaying(true);
   }
- 
-  const pauseVideo = (videoEl) => {
-    videoEl.play();
+  
+  const pauseVideo = () => {
+    videoRef.current.pause();
+    setIsVideoPlaying(false);
   }
 
-
+  const handleScroll = () => {
+    const scrollTop = window.pageYOffset;
+    return scrollTop > headerHeight
+      ? pauseVideo()
+      : playVideo()
+  }
 
   useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
     document.body.classList.add('light');
 
     return () => {
+      window.removeEventListener('scroll', handleScroll);
       document.body.classList.remove('light');
     }
 
   }, [])
-
 
 
   const { data = {} } = project;
@@ -313,7 +322,7 @@ export default function Project({ project, preview, paths, isMobile, headerHeigh
               <meta name="description" content={metaDescription} />
               <meta name="keywords" content={metaKeywords} />
             </Head>
-            <HeroPanel project={project} isMobile={isMobile} ref={videoRef} playVideo={playVideo} pauseVideo={pauseVideo} />
+            <HeroPanel project={project} isMobile={isMobile} ref={videoRef} playVideo={playVideo} pauseVideo={pauseVideo} isVideoPlaying={isVideoPlaying} />
             {pageContentOutput}
             <PrevNextLinks paths={paths} uid={uid} />
             {uid === 'about-me' &&

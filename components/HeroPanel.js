@@ -1,9 +1,8 @@
 import React, { forwardRef, useEffect } from 'react';
 import classNames from 'classnames';
-import videoConnect from '../components/video';
 import { VIDEO_URL } from '../lib/constants';
 
-const HeroPanel = forwardRef(({ video, videoEl, project, isVideoPlaying, isMobile, playVideo, pauseVideo }, ref) => {
+const HeroPanel = forwardRef(({ project, isVideoPlaying, isMobile, playVideo, pauseVideo }, ref) => {
   const { data = {} } = project;
   const videoFile = data["hero-video-file"];
   const heroImage = data["hero-image"]?.url;
@@ -17,6 +16,13 @@ const HeroPanel = forwardRef(({ video, videoEl, project, isVideoPlaying, isMobil
     'active': videoFile !== undefined && isVideoPlaying
   });
 
+
+  const toggleVideoPlay = () => {
+    if (isVideoPlaying) {
+      return pauseVideo();
+    }
+    return playVideo();
+  }
   return (videoFile)
     ? (<div
       key={videoFile}
@@ -32,17 +38,18 @@ const HeroPanel = forwardRef(({ video, videoEl, project, isVideoPlaying, isMobil
           <source src={`${VIDEO_URL}${videoFile}.mp4`} type="video/mp4" />
         </video>}
       {!isMobile &&
-        <video
-          ref={ref}
-          id="VideoPlayer"
-          autoPlay
-          loop
-          poster={heroImageUrl}
-          onCanPlayThrough={() => {
-          }}>
-          <source src={`${VIDEO_URL}${videoFile}.webm`} type="video/webm" />
-          <source src={`${VIDEO_URL}${videoFile}.mp4`} type="video/mp4" />
-        </video>
+        <>
+          <button type="button" className={`play-button ${isVideoPlaying ? 'paused' : ''}`} onClick={toggleVideoPlay}></button>
+          <video
+            ref={ref}
+            id="VideoPlayer"
+            loop
+            poster={heroImageUrl}
+          >
+            <source src={`${VIDEO_URL}${videoFile}.webm`} type="video/webm" />
+            <source src={`${VIDEO_URL}${videoFile}.mp4`} type="video/mp4" />
+          </video>
+        </>
       }
 
 
@@ -53,4 +60,4 @@ const HeroPanel = forwardRef(({ video, videoEl, project, isVideoPlaying, isMobil
       style={{ 'backgroundImage': `url(${heroImageUrl})` }} />);
 });
 
-export default videoConnect(HeroPanel)
+export default HeroPanel
