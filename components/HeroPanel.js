@@ -2,7 +2,7 @@ import React, { forwardRef, useEffect } from 'react';
 import classNames from 'classnames';
 import { VIDEO_URL } from '../lib/constants';
 
-const HeroPanel = forwardRef(({ project, isVideoPlaying, isMobile, playVideo, pauseVideo }, ref) => {
+const HeroPanel = forwardRef(({ project, isVideoPlaying, isMobile, playVideo, pauseVideo, setHasVideoPlayed, hasVideoPlayed}, ref) => {
   const { data = {} } = project;
   const videoFile = data["hero-video-file"];
   const heroImage = data["hero-image"]?.url;
@@ -18,6 +18,7 @@ const HeroPanel = forwardRef(({ project, isVideoPlaying, isMobile, playVideo, pa
 
 
   const toggleVideoPlay = () => {
+    setHasVideoPlayed(true);
     if (isVideoPlaying) {
       return pauseVideo();
     }
