@@ -2,7 +2,7 @@
   "name": "cms-prismic",
   "version": "1.0.0",
   "engines": {
-    "node": "12"
+    "node": "18"
   },
   "scripts": {
     "dev": "next",
