@@ -9,8 +9,8 @@ export default function Index({ preview, results, homeData }) {
   const handleSetHomepageSlide = index => {
     setHomepageSlide(index)
   }
-  const metaDescription =  homeData['meta-description']?.[0]?.text;
-  const metaKeywords = homeData['meta-keywords']?.[0]?.text;
+  const metaDescription =  homeData?.['meta-description']?.[0]?.text;
+  const metaKeywords = homeData?.['meta-keywords']?.[0]?.text;
 
   return (
     <div id="home">
@@ -32,12 +32,12 @@ export default function Index({ preview, results, homeData }) {
 export async function getStaticProps({ preview = false }) {
   const { results } = await getAllProjectsForHome();
   const data = await getHomepage();
-  const homeData = data.results[0].data;
+  const homeData = data?.results[0]?.data;
   const sortedResults = results.sort(
     (a, b) => a?.data['homepage-slide-order'] - b?.data['homepage-slide-order']
   );
   return {
-    props: { preview, results: sortedResults, homeData },
-    unstable_revalidate: 1,
+    props: { preview, results: sortedResults, homeData: homeData ?? null },
+    revalidate: 1,
   };
 }
