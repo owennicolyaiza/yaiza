@@ -41,6 +41,16 @@ function MyApp({ Component, pageProps, router }) {
       window.removeEventListener('scroll', handleScroll);
     }
   }, [])
+
+  useEffect(() => {
+    const handleContextmenu = e => {
+      e.preventDefault()
+    }
+    document.addEventListener('contextmenu', handleContextmenu)
+    return function cleanup() {
+      document.removeEventListener('contextmenu', handleContextmenu)
+    }
+  }, [])
   return (
     <>
       <ProjectProvider>
