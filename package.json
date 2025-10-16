@@ -1,9 +1,6 @@
 {
   "name": "cms-prismic",
   "version": "1.0.0",
-  "engines": {
-    "node": ">=22"
-  },
   "scripts": {
     "dev": "next",
     "build": "next build",
