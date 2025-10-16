@@ -314,6 +314,8 @@ export default function Project({ project, preview, paths, isMobile, headerHeigh
     })
     : null;
 
+  console.log('====> BELOO:')
+
   return (
     <>
       {router.isFallback ? (
@@ -326,7 +328,7 @@ export default function Project({ project, preview, paths, isMobile, headerHeigh
             <meta name="keywords" content={metaKeywords} />
           </Head>
           <ErrorBoundary FallbackComponent={Fallback}>
-            <HeroPanel project={project} isMobile={isMobile} ref={videoRef} playVideo={playVideo} pauseVideo={pauseVideo} isVideoPlaying={isVideoPlaying} hasVideoPlayed={hasVideoPlayed} setHasVideoPlayed={setHasVideoPlayed} />
+            {/* <HeroPanel project={project} isMobile={isMobile} ref={videoRef} playVideo={playVideo} pauseVideo={pauseVideo} isVideoPlaying={isVideoPlaying} hasVideoPlayed={hasVideoPlayed} setHasVideoPlayed={setHasVideoPlayed} /> */}
             {pageContentOutput}
           </ErrorBoundary>
           <PrevNextLinks paths={paths} uid={uid} />
