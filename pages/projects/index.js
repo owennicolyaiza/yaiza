@@ -15,6 +15,7 @@ import SVGYaizaLogo from '../../components/SVG/SVGYaizaLogo'
 import { Play, Mute, Seek } from '../../components/video';
 import Link from 'next/link';
 import HeroPanel from '../../components/HeroPanel';
+import { ErrorBoundary } from 'react-error-boundary';
 
 
 const Image = (props) => (<div className={props.classes}><img src={props.url} className="img-responsive" /></div>);
@@ -205,20 +206,32 @@ export default function Project({ project = { uid: '1234', data: {} }, preview, 
       {router.isFallback ? (
         <p>Loading…</p>
       ) : (
-          <div id="project" className="container">
-            <Head>
-              <title>Yaiza | Projects</title>
-              <meta name="description" content={metaDescription} />
-              <meta name="keywords" content={metaKeywords} />
-            </Head>
+        <div id="project" className="container">
+          <Head>
+            <title>Yaiza | Projects</title>
+            <meta name="description" content={metaDescription} />
+            <meta name="keywords" content={metaKeywords} />
+          </Head>
+          <ErrorBoundary FallbackComponent={Fallback}>
             <HeroPanel project={project} isMobile={isMobile} ref={videoRef} />
             {pageContentOutput}
-          </div>
-        )}
+          </ErrorBoundary>
+        </div>
+      )}
     </>
   );
 }
 
+
+function Fallback({ error }) {
+
+  return (
+    <div role="alert">
+      <p>Something went wrong:</p>
+      <pre style={{ color: "red" }}>{error.message}</pre>
+    </div>
+  );
+}
 
 export async function getStaticProps({ preview = false }) {
   return {
