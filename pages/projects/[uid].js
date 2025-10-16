@@ -13,7 +13,6 @@ import SVGYaizaLogo from '../../components/SVG/SVGYaizaLogo'
 
 import Link from 'next/link';
 import HeroPanel from '../../components/HeroPanel';
-import video from '../../components/video';
 import { ErrorBoundary } from "react-error-boundary";
 
 const Image = (props) => (<div className={props.classes}><img src={props.url} className="img-responsive" /></div>);

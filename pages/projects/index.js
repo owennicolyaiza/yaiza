@@ -12,7 +12,6 @@ import SVGLeftChevron from '../../components/SVG/SVGLeftChevron';
 import SVGYaizaLogo from '../../components/SVG/SVGYaizaLogo'
 
 // // External modules
-import { Play, Mute, Seek } from '../../components/video';
 import Link from 'next/link';
 import HeroPanel from '../../components/HeroPanel';
 import { ErrorBoundary } from 'react-error-boundary';
