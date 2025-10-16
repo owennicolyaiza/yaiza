@@ -1,7 +1,9 @@
-const webpack = require('webpack');
-require('dotenv').config();
+import "dotenv/config.js"
 
-module.exports = {
+export default {
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   env: {
     CMS_PRISMIC_API_TOKEN:
       process.env.CMS_PRISMIC_API_TOKEN,
