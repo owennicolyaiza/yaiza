@@ -2,9 +2,10 @@ import React, { forwardRef, useEffect } from 'react';
 import classNames from 'classnames';
 import { VIDEO_URL } from '../lib/constants';
 
-const HeroPanel = forwardRef(({ project, isVideoPlaying, isMobile, playVideo, pauseVideo, setHasVideoPlayed, hasVideoPlayed}, ref) => {
+const HeroPanel = forwardRef(({ project, isVideoPlaying, isMobile, playVideo, pauseVideo, setHasVideoPlayed, hasVideoPlayed }, ref) => {
   const { data = {} } = project;
-  const videoFile = data["hero-video-file"];
+  // const videoFile = data["hero-video-file"];
+  const videoFile = '';
   const heroImage = data["hero-image"]?.url;
   const heroImageUrl = `${heroImage}&w=1400`;
   let heroClasses = classNames({
@@ -33,7 +34,7 @@ const HeroPanel = forwardRef(({ project, isVideoPlaying, isMobile, playVideo, pa
           poster={heroImageUrl}
           id="VideoPlayer"
           onCanPlayThrough={() => {
-            // Do stuff 
+            // Do stuff
           }}>
           <source src={`${VIDEO_URL}${videoFile}.webm`} type="video/webm" />
           <source src={`${VIDEO_URL}${videoFile}.mp4`} type="video/mp4" />

@@ -328,7 +328,7 @@ export default function Project({ project, preview, paths, isMobile, headerHeigh
           </Head>
           <ErrorBoundary FallbackComponent={Fallback}>
             <HeroPanel project={project} isMobile={isMobile} ref={videoRef} playVideo={playVideo} pauseVideo={pauseVideo} isVideoPlaying={isVideoPlaying} hasVideoPlayed={hasVideoPlayed} setHasVideoPlayed={setHasVideoPlayed} />
-            {/* {pageContentOutput} */}
+            {pageContentOutput}
           </ErrorBoundary>
           <PrevNextLinks paths={paths} uid={uid} />
           {uid === 'about-me' &&
