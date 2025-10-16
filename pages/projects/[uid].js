@@ -14,7 +14,7 @@ import SVGYaizaLogo from '../../components/SVG/SVGYaizaLogo'
 import Link from 'next/link';
 import HeroPanel from '../../components/HeroPanel';
 import video from '../../components/video';
-
+import { ErrorBoundary } from "react-error-boundary";
 
 const Image = (props) => (<div className={props.classes}><img src={props.url} className="img-responsive" /></div>);
 
@@ -319,23 +319,35 @@ export default function Project({ project, preview, paths, isMobile, headerHeigh
       {router.isFallback ? (
         <p>Loading…</p>
       ) : (
-          <div id="project" className="container">
-            <Head>
-              <title>Yaiza{title}</title>
-              <meta name="description" content={metaDescription} />
-              <meta name="keywords" content={metaKeywords} />
-            </Head>
+        <div id="project" className="container">
+          <Head>
+            <title>Yaiza{title}</title>
+            <meta name="description" content={metaDescription} />
+            <meta name="keywords" content={metaKeywords} />
+          </Head>
+          <ErrorBoundary FallbackComponent={Fallback}>
             <HeroPanel project={project} isMobile={isMobile} ref={videoRef} playVideo={playVideo} pauseVideo={pauseVideo} isVideoPlaying={isVideoPlaying} hasVideoPlayed={hasVideoPlayed} setHasVideoPlayed={setHasVideoPlayed} />
             {pageContentOutput}
-            <PrevNextLinks paths={paths} uid={uid} />
-            {uid === 'about-me' &&
-              <div className="yai-logo-container">
-                <SVGYaizaLogo width={350} height={115} className="yai-logo" />
-              </div>
-            }
-          </div>
-        )}
+          </ErrorBoundary>
+          <PrevNextLinks paths={paths} uid={uid} />
+          {uid === 'about-me' &&
+            <div className="yai-logo-container">
+              <SVGYaizaLogo width={350} height={115} className="yai-logo" />
+            </div>
+          }
+        </div>
+      )}
     </>
+  );
+}
+
+function Fallback({ error }) {
+
+  return (
+    <div role="alert">
+      <p>Something went wrong:</p>
+      <pre style={{ color: "red" }}>{error.message}</pre>
+    </div>
   );
 }
 
